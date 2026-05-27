@@ -161,6 +161,28 @@
             @endif
         @endif
 
+        @if(!empty($orderData['subtotal']))
+            <div class="field-group" style="background-color: #fffdf8; border: 1px solid #e3d7b6; border-radius: 8px; padding: 15px; margin-top: 15px;">
+                <div class="label" style="margin-bottom: 8px;">Фінансовий підсумок</div>
+                <table style="width: 100%; font-size: 14px; color: #2f2718;">
+                    @if(!empty($orderData['discountRate']) && $orderData['discountRate'] > 0)
+                        <tr>
+                            <td style="padding: 3px 0; text-align: left;">Сума:</td>
+                            <td style="padding: 3px 0; text-align: right; font-weight: 600;">{{ number_format($orderData['subtotal'], 0, ',', ' ') }} грн</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 3px 0; text-align: left; color: #15803d;">Знижка ({{ $orderData['discountRate'] }}%):</td>
+                            <td style="padding: 3px 0; text-align: right; font-weight: 600; color: #15803d;">-{{ number_format($orderData['discountAmount'], 0, ',', ' ') }} грн</td>
+                        </tr>
+                    @endif
+                    <tr style="font-size: 16px; font-weight: bold; border-top: 1px solid #e3d7b6;">
+                        <td style="padding: 8px 0 0 0; text-align: left;">Всього до сплати:</td>
+                        <td style="padding: 8px 0 0 0; text-align: right; color: #b86f17;">{{ number_format($orderData['total'], 0, ',', ' ') }} грн</td>
+                    </tr>
+                </table>
+            </div>
+        @endif
+
         @if(!empty($orderData['message']))
             <div class="field-group">
                 <div class="label">Коментар до замовлення</div>

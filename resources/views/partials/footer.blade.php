@@ -3,17 +3,27 @@
         <div class="grid gap-8 py-12 lg:grid-cols-4 lg:py-16">
             <div>
                 <div class="flex items-center gap-3">
-                    <span class="flex size-10 items-center justify-center rounded-lg bg-[#b86f17] text-white">
-                        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                            <path d="M12 2 2 7l10 5 10-5-10-5ZM2 12l10 5 10-5M2 17l10 5 10-5" />
-                        </svg>
-                    </span>
+                    <img src="{{ asset('images/Logo.png') }}" alt="Логотип Хімекселен" class="h-10 w-auto object-contain">
                     <span class="flex flex-col leading-tight">
                         <span class="text-lg font-bold">Хімекселен</span>
                         <span class="text-xs text-white/60">Вулики з ППУ</span>
                     </span>
                 </div>
                 <p class="mt-4 text-sm leading-6 text-white/70">Вулики з пінополіуретану нового покоління. Легкі, довговічні та енергоефективні.</p>
+                <div class="mt-6 flex flex-col gap-2.5">
+                    <a href="https://himpost.com/" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-lg bg-[#b86f17]/20 border border-[#b86f17]/40 px-4 py-2 text-xs font-semibold text-[#fbf8ef] transition hover:bg-[#b86f17] hover:border-[#b86f17] w-full">
+                        <span>ПП Хімпостачальник</span>
+                        <svg class="size-3.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="https://techpolymersmarket.com/" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-lg bg-[#b86f17]/20 border border-[#b86f17]/40 px-4 py-2 text-xs font-semibold text-[#fbf8ef] transition hover:bg-[#b86f17] hover:border-[#b86f17] w-full">
+                        <span>Техполімер Маркет</span>
+                        <svg class="size-3.5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.22 14.78a.75.75 0 0 0 1.06 0l7.22-7.22v5.69a.75.75 0 0 0 1.5 0v-7.5a.75.75 0 0 0-.75-.75h-7.5a.75.75 0 0 0 0 1.5h5.69l-7.22 7.22a.75.75 0 0 0 0 1.06Z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
             </div>
             <div>
                 <h3 class="text-sm font-semibold uppercase tracking-wider">Навігація</h3>
@@ -27,7 +37,7 @@
                 <h3 class="text-sm font-semibold uppercase tracking-wider">Контакти</h3>
                 <ul class="mt-4 grid gap-3 text-sm text-white/70">
                     <li><a href="tel:+380503403547" class="transition hover:text-[#e6a83c]">+38 050 340 35 47</a></li>
-                    <li><a href="mailto:director@himpost.com" class="transition hover:text-[#e6a83c]">director@himpost.com</a></li>
+                    <li><a href="mailto:info@bee.lg.ua" class="transition hover:text-[#e6a83c]">info@bee.lg.ua</a></li>
                     <li>м. Кременчук, Полтавська обл.</li>
                 </ul>
             </div>

@@ -74,12 +74,7 @@
     <header class="sticky top-0 z-50 border-b border-[#e3d7b6] bg-[#fbf8ef]/90 backdrop-blur">
         <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
-                <span class="flex size-10 items-center justify-center rounded-lg bg-[#b86f17] text-white">
-                    <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-                        aria-hidden="true">
-                        <path d="M12 2 2 7l10 5 10-5-10-5ZM2 12l10 5 10-5M2 17l10 5 10-5" />
-                    </svg>
-                </span>
+                <img src="{{ asset('images/Logo.png') }}" alt="Логотип Хімекселен" class="h-10 w-auto object-contain">
                 <span class="flex flex-col leading-tight">
                     <span class="text-lg font-bold">Хімекселен</span>
                     <span class="text-xs text-[#766748]">Вулики з ППУ</span>
@@ -331,18 +326,7 @@
                     </div>
                 </div>
 
-                <!-- Price Tables -->
-                <div class="border-t border-[#e3d7b6] pt-12">
-                    <h2 class="text-2xl font-bold font-serif mb-6 text-[#2f2718]">Таблиці цін та складу комплектів</h2>
-                    <div class="grid gap-6 lg:grid-cols-3">
-                        @foreach ($priceImages as $priceImage)
-                            <article class="overflow-hidden rounded-lg border border-[#e2d4ad] bg-white p-4 shadow-sm">
-                                <h3 class="mb-4 text-xl font-semibold">{{ $priceImage['title'] }}</h3>
-                                <img src="{{ $priceImage['image_url'] }}" alt="Таблиця комплектацій {{ $priceImage['title'] }}" class="w-full rounded-md object-contain">
-                            </article>
-                        @endforeach
-                    </div>
-                </div>
+
             </div>
 
         </div>

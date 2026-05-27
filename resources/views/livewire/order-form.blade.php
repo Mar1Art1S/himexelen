@@ -1,11 +1,11 @@
 <div>
     <!-- Flux UI Modal -->
     <flux:modal wire:model="showModal" class="max-w-md w-full !bg-[#fffdf8] border border-[#e2d4ad] rounded-2xl shadow-2xl p-0 overflow-hidden">
-        <div class="relative">
+        <div class="relative flex flex-col max-h-[95vh] md:max-h-[90vh]">
             <!-- Decorative top bar matching honey gold theme -->
-            <div class="h-2 bg-gradient-to-r from-[#b86f17] via-[#d6a254] to-[#b86f17]"></div>
+            <div class="h-2 bg-gradient-to-r from-[#b86f17] via-[#d6a254] to-[#b86f17] shrink-0"></div>
             
-            <div class="p-6">
+            <div class="p-6 overflow-y-auto flex-1">
 
                 @if ($isSubmitted)
                     <!-- Success State -->
@@ -82,47 +82,41 @@
                                 <flux:field>
                                     <flux:label class="text-[#2f2718] font-medium text-sm">Оберіть товар / деталь</flux:label>
                                     <flux:select wire:model="product" class="!bg-white border-[#e3d7b6] text-sm rounded-lg">
-                                        <!-- 8-рамкові вулики -->
-                                        <flux:select.option value="Вулик на 8 рамок" disabled class="font-bold text-[#b86f17]">--- 8-РАМКОВІ ВУЛИКИ ---</flux:select.option>
-                                        <flux:select.option value="Вулик на 8 рамок">Вулик на 8 рамок (Базовий)</flux:select.option>
-                                        <flux:select.option value="8 рамок, Комплектація 1">8 рамок, Комплектація 1</flux:select.option>
-                                        <flux:select.option value="8 рамок, Комплектація 2">8 рамок, Комплектація 2</flux:select.option>
-                                        <flux:select.option value="8 рамок, Комплектація 3">8 рамок, Комплектація 3</flux:select.option>
-                                        <flux:select.option value="8 рамок, Комплектація 4">8 рамок, Комплектація 4</flux:select.option>
-
-                                        <!-- 10-рамкові вулики -->
-                                        <flux:select.option value="Вулик на 10 рамок" disabled class="font-bold text-[#b86f17] pt-2">--- 10-РАМКОВІ ВУЛИКИ ---</flux:select.option>
-                                        <flux:select.option value="Вулик на 10 рамок">Вулик на 10 рамок (Базовий)</flux:select.option>
-                                        <flux:select.option value="10 рамок, Комплектація 1">10 рамок, Комплектація 1</flux:select.option>
-                                        <flux:select.option value="10 рамок, Комплектація 2">10 рамок, Комплектація 2</flux:select.option>
-                                        <flux:select.option value="10 рамок, Комплектація 3">10 рамок, Комплектація 3</flux:select.option>
-                                        <flux:select.option value="10 рамок, Комплектація 4">10 рамок, Комплектація 4</flux:select.option>
-
-                                        <!-- 12-рамкові вулики -->
-                                        <flux:select.option value="Вулик на 12 рамок" disabled class="font-bold text-[#b86f17] pt-2">--- 12-РАМКОВІ ВУЛИКИ ---</flux:select.option>
-                                        <flux:select.option value="Вулик на 12 рамок">Вулик на 12 рамок (Базовий)</flux:select.option>
-                                        <flux:select.option value="12 рамок, Комплектація 1">12 рамок, Комплектація 1</flux:select.option>
-                                        <flux:select.option value="12 рамок, Комплектація 2">12 рамок, Комплектація 2</flux:select.option>
-                                        <flux:select.option value="12 рамок, Комплектація 3">12 рамок, Комплектація 3</flux:select.option>
-                                        <flux:select.option value="12 рамок, Комплектація 4">12 рамок, Комплектація 4</flux:select.option>
+                                        @foreach ($categories as $catItem)
+                                            @if ($catItem->complectations->isNotEmpty())
+                                                @php
+                                                    $prefix = '';
+                                                    if (str_contains($catItem->slug, '8-frames')) {
+                                                        $prefix = '8 рамок, ';
+                                                    } elseif (str_contains($catItem->slug, '10-frames')) {
+                                                        $prefix = '10 рамок, ';
+                                                    } elseif (str_contains($catItem->slug, '12-frames')) {
+                                                        $prefix = '12 рамок, ';
+                                                    }
+                                                @endphp
+                                                <flux:select.option value="" disabled class="font-bold text-[#b86f17] pt-2">--- {{ mb_strtoupper($catItem->name) }} ---</flux:select.option>
+                                                @if (str_contains($catItem->slug, '8-frames'))
+                                                    <flux:select.option value="Вулик на 8 рамок">Вулик на 8 рамок (Базовий)</flux:select.option>
+                                                @elseif (str_contains($catItem->slug, '10-frames'))
+                                                    <flux:select.option value="Вулик на 10 рамок">Вулик на 10 рамок (Базовий)</flux:select.option>
+                                                @elseif (str_contains($catItem->slug, '12-frames'))
+                                                    <flux:select.option value="Вулик на 12 рамок">Вулик на 12 рамок (Базовий)</flux:select.option>
+                                                @endif
+                                                @foreach ($catItem->complectations as $complectation)
+                                                    <flux:select.option value="{{ $prefix }}{{ $complectation->name }}">{{ $prefix }}{{ $complectation->name }}</flux:select.option>
+                                                @endforeach
+                                            @endif
+                                        @endforeach
 
                                         <!-- Комплектуючі -->
-                                        <flux:select.option value="інше" disabled class="font-bold text-[#b86f17] pt-2">--- ОКРЕМІ ДЕТАЛІ ---</flux:select.option>
-                                        <flux:select.option value="ДНО 8 в комплекті">Дно 8 рамок</flux:select.option>
-                                        <flux:select.option value="ДАХ 8">Дах 8 рамок</flux:select.option>
-                                        <flux:select.option value="КОРПУС 8 на 145">Корпус 8 рамок на 145</flux:select.option>
-                                        <flux:select.option value="КОРПУС 8 на 230">Корпус 8 рамок на 230</flux:select.option>
-                                        <flux:select.option value="КОРПУС 8 на 300">Корпус 8 рамок на 300</flux:select.option>
-                                        <flux:select.option value="ДНО 10 в комплекті">Дно 10 рамок</flux:select.option>
-                                        <flux:select.option value="ДАХ 10">Дах 10 рамок</flux:select.option>
-                                        <flux:select.option value="КОРПУС 10 на 145">Корпус 10 рамок на 145</flux:select.option>
-                                        <flux:select.option value="КОРПУС 10 на 230">Корпус 10 рамок на 230</flux:select.option>
-                                        <flux:select.option value="КОРПУС 10 на 300">Корпус 10 рамок на 300</flux:select.option>
-                                        <flux:select.option value="ДНО 12 в комплекті">Дно 12 рамок</flux:select.option>
-                                        <flux:select.option value="ДАХ 12">Дах 12 рамок</flux:select.option>
-                                        <flux:select.option value="КОРПУС 12 на 145">Корпус 12 рамок на 145</flux:select.option>
-                                        <flux:select.option value="КОРПУС 12 на 230">Корпус 12 рамок на 230</flux:select.option>
-                                        <flux:select.option value="КОРПУС 12 на 300">Корпус 12 рамок на 300</flux:select.option>
+                                        @if ($groupedComponents->isNotEmpty())
+                                            <flux:select.option value="" disabled class="font-bold text-[#b86f17] pt-2">--- ОКРЕМІ ДЕТАЛІ ---</flux:select.option>
+                                            @foreach ($groupedComponents as $groupName => $group)
+                                                @foreach ($group as $compItem)
+                                                    <flux:select.option value="{{ $compItem->name }}">{{ $compItem->name }}</flux:select.option>
+                                                @endforeach
+                                            @endforeach
+                                        @endif
                                         <flux:select.option value="інше">Інша комплектація / Інше</flux:select.option>
                                     </flux:select>
                                     <flux:error name="product" class="text-xs mt-1 text-red-600" />
@@ -149,13 +143,18 @@
                             <div class="flex items-center justify-between border-b border-[#e3d7b6] pb-2">
                                 <span class="text-xs font-bold text-[#766748] uppercase tracking-wider">Список товарів у замовленні:</span>
                                 <span class="text-xs font-bold text-[#b86f17] bg-[#f3ead3] px-2 py-0.5 rounded-md">
-                                    Всього: {{ collect($cartItems)->sum('quantity') }} шт.
+                                    Всього: {{ empty($cartItems) ? $quantity : collect($cartItems)->sum('quantity') }} шт.
                                 </span>
                             </div>
 
                             @if (empty($cartItems))
-                                <div class="text-xs text-[#766748] italic py-2 text-center">
-                                    Список порожній. Оберіть товари вище та натисніть «Додати до списку».
+                                <div class="flex items-center justify-between gap-3 text-sm bg-white p-3 rounded-lg border border-[#e3d7b6]/60 shadow-2xs">
+                                    <div class="flex-1 font-medium text-[#2f2718] leading-tight text-xs">
+                                        {{ $product === 'інше' ? 'Інша комплектація / Інше' : $product }}
+                                    </div>
+                                    <div class="shrink-0 font-bold text-xs text-[#b86f17] bg-[#fffdf8] border border-[#e3d7b6]/40 px-2 py-1 rounded-md">
+                                        {{ $quantity }} шт.
+                                    </div>
                                 </div>
                             @else
                                 <div class="space-y-2 max-h-40 overflow-y-auto pr-1">
@@ -182,6 +181,33 @@
                                     @endforeach
                                 </div>
                             @endif
+
+                            <!-- Summary Block -->
+                            @php
+                                $subtotal = $this->subtotal();
+                                $discountRate = $this->discountRate();
+                                $discountAmount = $this->discountAmount();
+                                $total = $this->total();
+                            @endphp
+
+                            <div class="border-t border-[#e3d7b6] pt-3 mt-2 space-y-1.5 text-xs text-[#6d6045]">
+                                @if ($discountRate > 0)
+                                    <div class="flex justify-between">
+                                        <span>Сума:</span>
+                                        <span class="font-semibold text-[#2f2718]">{{ number_format($subtotal, 0, ',', ' ') }} грн</span>
+                                    </div>
+                                    <div class="flex justify-between text-green-700 font-medium">
+                                        <span>Знижка ({{ $discountRate }}%):</span>
+                                        <span>-{{ number_format($discountAmount, 0, ',', ' ') }} грн</span>
+                                    </div>
+                                @endif
+                                <div class="flex justify-between items-center text-sm font-bold text-[#2f2718] pt-1">
+                                    <span>Загальна сума замовлення:</span>
+                                    <span class="text-[#b86f17] text-base font-extrabold">
+                                        {{ number_format($total, 0, ',', ' ') }} грн
+                                    </span>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Message Field -->

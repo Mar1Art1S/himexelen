@@ -2,8 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Mail\CalculationMail;
 use App\Models\ProductComplectation;
 use App\Models\ProductComponent;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Livewire\Component;
 
@@ -443,15 +445,15 @@ class HiveCalculator extends Component
         ];
 
         // Resolve recipient: check config or env first
-        $recipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'director@himpost.com');
+        $recipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'info@bee.lg.ua');
 
         // Clean up recipient if it's malformed
         if (! str_contains($recipient, '@')) {
-            $recipient = 'director@himpost.com';
+            $recipient = 'info@bee.lg.ua';
         }
 
         // Send the email
-        \Illuminate\Support\Facades\Mail::to($recipient)->send(new \App\Mail\CalculationMail($calcData));
+        Mail::to($recipient)->send(new CalculationMail($calcData));
 
         // Mark as sent
         $this->isSent = true;

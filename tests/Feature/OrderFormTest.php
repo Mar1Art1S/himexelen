@@ -2,6 +2,7 @@
 
 use App\Livewire\OrderForm;
 use App\Mail\OrderMail;
+use Database\Seeders\AdminAndContentSeeder;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 
@@ -68,9 +69,9 @@ test('submitting valid order form dispatches order email to director', function 
         ->assertSet('isSubmitted', true);
 
     Mail::assertQueued(OrderMail::class, function (OrderMail $mail) {
-        $expectedRecipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'director@himpost.com');
+        $expectedRecipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'info@bee.lg.ua');
         if (! str_contains($expectedRecipient, '@')) {
-            $expectedRecipient = 'director@himpost.com';
+            $expectedRecipient = 'info@bee.lg.ua';
         }
 
         return $mail->hasTo($expectedRecipient) &&
@@ -121,4 +122,40 @@ test('order form allows adding and submitting multiple cart items', function () 
                $mail->orderData['items'][1]['name'] === 'ДАХ 10' &&
                $mail->orderData['items'][1]['quantity'] === 5;
     });
+});
+
+test('order form correctly calculates subtotal, discount, and total', function () {
+    // 1. Test with fallbacks first (empty DB)
+    Livewire::test(OrderForm::class)
+        ->set('product', 'Вулик на 8 рамок')
+        ->set('quantity', 2)
+        ->assertSee('Загальна сума замовлення')
+        ->assertSee('5 214'); // 2607 * 2 = 5214
+
+    // 2. Test after seeding DB (queries active DB values)
+    $this->seed(AdminAndContentSeeder::class);
+
+    // 2.1 Single selection from dropdown (with DB query)
+    Livewire::test(OrderForm::class)
+        ->set('product', 'Вулик на 8 рамок')
+        ->set('quantity', 2)
+        ->assertSee('5 214'); // 2607 * 2 = 5214
+
+    // 2.2 Add multiple items to cart (e.g. complectation and component)
+    Livewire::test(OrderForm::class)
+        ->call('addToCart', '8 рамок, Комплектація 1', 2) // 2607 * 2 = 5214
+        ->call('addToCart', 'ДАХ 8', 5) // 466 * 5 = 2330
+        ->assertSee('7 544'); // 5214 + 2330 = 7544
+
+    // 2.3 Test discount tier (e.g. over 30,000 UAH gets 5% discount)
+    // 12 of 12-frame hives (3230 each) = 38,760 UAH.
+    // 5% discount is 1,938 UAH.
+    // Total is 36,822 UAH.
+    Livewire::test(OrderForm::class)
+        ->call('addToCart', 'Вулик на 12 рамок', 12)
+        ->assertSee('Сума:')
+        ->assertSee('38 760')
+        ->assertSee('Знижка (5%):')
+        ->assertSee('-1 938')
+        ->assertSee('36 822');
 });

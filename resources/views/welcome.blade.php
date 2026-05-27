@@ -46,19 +46,14 @@
             ];
 
             $emails = [
-                ['email' => 'director@himpost.com', 'label' => 'Директор'],
-                ['email' => 'zbut@himpost.com', 'label' => 'Відділ збуту'],
+                ['email' => 'info@bee.lg.ua', 'label' => 'Електронна пошта'],
             ];
         @endphp
 
         <header class="fixed inset-x-0 top-0 z-50 border-b border-[#e3d7b6] bg-[#fbf8ef]/90 backdrop-blur">
             <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <a href="#hero" class="flex items-center gap-3">
-                    <span class="flex size-10 items-center justify-center rounded-lg bg-[#b86f17] text-white">
-                        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                            <path d="M12 2 2 7l10 5 10-5-10-5ZM2 12l10 5 10-5M2 17l10 5 10-5" />
-                        </svg>
-                    </span>
+                    <img src="{{ asset('images/Logo.png') }}" alt="Логотип Хімекселен" class="h-10 w-auto object-contain">
                     <span class="flex flex-col leading-tight">
                         <span class="text-lg font-bold">Хімекселен</span>
                         <span class="text-xs text-[#766748]">Вулики з ППУ</span>
@@ -72,8 +67,7 @@
                 </div>
 
                 <div class="hidden items-center gap-4 lg:flex">
-                    <a href="tel:+380503403547" class="text-sm font-semibold text-[#2f2718]">+38 050 340 35 47</a>
-                    <a href="#contacts" class="rounded-lg border border-[#cdbb8c] px-4 py-2 text-sm font-semibold text-[#2f2718] transition hover:bg-white">Зв'язатися</a>
+                    <button onclick="Livewire.dispatch('openContactForm')" type="button" class="rounded-lg border border-[#cdbb8c] px-4 py-2 text-sm font-semibold text-[#2f2718] transition hover:bg-white cursor-pointer">Зв'язатися</button>
                     <button onclick="Livewire.dispatch('openOrderForm')" type="button" class="inline-flex w-auto items-center justify-center rounded-lg bg-[#b86f17] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#97580f] focus:outline-hidden focus:ring-2 focus:ring-[#b86f17] focus:ring-offset-2 cursor-pointer">
                         Замовити
                     </button>
@@ -91,7 +85,6 @@
                             @foreach ($navigation as $item)
                                 <a href="{{ $item['href'] }}" class="rounded-md px-3 py-2 text-base font-medium text-[#5d5035] hover:bg-[#f3ead3]">{{ $item['name'] }}</a>
                             @endforeach
-                            <a href="tel:+380503403547" class="mt-2 rounded-lg border border-[#cdbb8c] px-4 py-3 text-center font-semibold text-[#2f2718] transition hover:bg-white">+38 050 340 35 47</a>
                             <div class="mt-1">
                                 <button onclick="Livewire.dispatch('openOrderForm')" type="button" class="w-full inline-flex justify-center rounded-lg bg-[#b86f17] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#97580f] cursor-pointer">
                                     Замовити
@@ -141,7 +134,7 @@
                         </div>
 
                         <div class="mt-10 flex flex-wrap gap-4">
-                            <a href="#catalog" class="rounded-xl bg-[#b86f17] px-6 py-3.5 text-sm font-bold text-white shadow-md hover:bg-[#97580f] transition">
+                            <a href="{{ route('catalog') }}" class="rounded-xl bg-[#b86f17] px-6 py-3.5 text-sm font-bold text-white shadow-md hover:bg-[#97580f] transition">
                                 Каталог вуликів
                             </a>
                             <a href="{{ route('calculator') }}" class="rounded-xl border border-[#cdbb8c] bg-white px-6 py-3.5 text-sm font-bold text-[#2f2718] transition hover:bg-[#fbf8ef]">
@@ -163,40 +156,23 @@
                         <h2 class="mt-4 font-serif text-3xl font-bold text-[#2f2718] sm:text-4xl lg:text-5xl">ТМ Хімекселен</h2>
                         
                         <p class="mt-6 text-lg leading-8 text-[#6d6045]">
-                            <strong class="text-[#2f2718]">Хімекселен</strong> — спеціалізований retail та B2B-проект компанії <strong class="text-[#2f2718]">Хімпостачальник</strong>, створений для сучасного бджільництва та пасічних господарств.
+                            <strong class="text-[#2f2718]">Хімекселен</strong> — спеціалізований проект компанії <strong class="text-[#2f2718]">Хімпостачальник</strong> у сфері сучасного бджільництва та виробництва ППУ-вуликів.
                         </p>
                         
                         <p class="mt-4 text-sm sm:text-base leading-relaxed text-[#6d6045]">
-                            Ми виробляємо вулики з пінополіуретану (ППУ) ТМ Хімекселен за сучасною технологією модульної збірки. Конструкція наших вуликів дозволяє бджолярам самостійно формувати необхідну комплектацію відповідно до власних потреб та типу пасіки.
+                            Ми створюємо функціональні модульні системи для пасік, які поєднують сучасні матеріали, ефективну теплоізоляцію та практичність у щоденній експлуатації.
                         </p>
 
                         <p class="mt-3 text-sm sm:text-base leading-relaxed text-[#6d6045]">
-                            Вулики з ППУ забезпечують високу теплоізоляцію, довговічність, зручність експлуатації та відповідають сучасним вимогам екологічності й ефективного бджільництва.
+                            Вулики ТМ <strong class="text-[#2f2718]">Хімекселен</strong> виготовляються з пінополіуретану (ППУ) за сучасною технологією, що дозволяє забезпечити довговічність конструкції, комфортне утримання бджіл та можливість індивідуальної комплектації під різні потреби пасічних господарств.
                         </p>
 
                         <div class="mt-4 p-4 rounded-2xl bg-[#fffcf5] border border-[#f3ead3] text-xs sm:text-sm text-[#766748] font-medium flex items-center gap-3">
                             <span class="text-xl flex-shrink-0">🌍</span>
-                            <span>Продукція ТМ Хімекселен успішно використовується в Україні, Молдові, Грузії, Вірменії та Латвії.</span>
+                            <span>Продукція компанії використовується бджолярами в Україні та країнах Європи й успішно зарекомендувала себе в професійному середовищі.</span>
                         </div>
 
-                        <h4 class="mt-8 text-lg font-bold text-[#2f2718]">Переваги системи:</h4>
-                        
-                        <ul class="mt-4 grid gap-3 text-sm">
-                            @foreach ([
-                                'модульна конструкція для індивідуальної комплектації',
-                                'сучасні ППУ-матеріали з високими теплоізоляційними властивостями',
-                                'повністю розбірна конструкція',
-                                'відповідність екологічним стандартам',
-                                'зручність транспортування та обслуговування пасіки'
-                            ] as $feature)
-                                <li class="flex gap-3 items-start">
-                                    <span class="mt-1 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#b86f17] text-white">
-                                        <svg class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
-                                    </span>
-                                    <span class="text-[#5d5035] font-medium">{{ $feature }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
+
 
                         <div class="mt-8" id="about-ecosystem-link-container">
                             <a href="{{ route('ecosystem') }}" class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#b86f17] px-6 py-3 text-sm font-bold text-white shadow-md hover:bg-[#97580f] transition cursor-pointer" id="about-read-more-btn">
@@ -234,22 +210,6 @@
                 </div>
             </section>
 
-            <section id="catalog" class="bg-white py-20 lg:py-28 border-t border-[#e2d4ad]">
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="mx-auto max-w-3xl text-center">
-                        <span class="text-sm font-semibold uppercase tracking-wider text-[#b86f17]">Продукція</span>
-                        <h2 class="mt-4 font-serif text-3xl font-bold text-[#2f2718] sm:text-4xl lg:text-5xl">Каталог вуликів з ППУ</h2>
-                        <p class="mt-6 text-lg leading-8 text-[#6d6045]">
-                            Ми виробляємо сучасні вулики з пінополіуретану на 8, 10 та 12 рамок у різних комплектаціях, а також пропонуємо широкий вибір окремих комплектуючих та деталей для пасіки за доступними цінами від виробника.
-                        </p>
-                        <div class="mt-10">
-                            <a href="{{ route('catalog') }}" id="home-catalog-link" class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#b86f17] px-8 py-4 font-bold text-white shadow-md hover:bg-[#97580f] transition duration-200 text-lg cursor-pointer">
-                                📖 Перейти до каталогу продукції
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <section id="material" class="bg-[#f3ead3] py-20 lg:py-28">
                 <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
@@ -358,8 +318,7 @@
                     <div class="mt-14 grid gap-8 lg:grid-cols-2">
                         <div class="grid gap-6">
                             <article class="rounded-lg border border-[#dccb9f] bg-white p-6">
-                                <h3 class="text-xl font-semibold">ПП Хімпостачальник</h3>
-                                <p class="mt-1 text-sm text-[#766748]">ТМ «Хімекселен»</p>
+                                <h3 class="text-xl font-semibold">ТМ Хімекселен</h3>
                                 <p class="mt-5 font-medium">ФОП Остраухов Андрій Євгенович</p>
                                 <p class="mt-4 text-sm leading-6 text-[#6d6045]">Україна, Полтавська область<br>39600, м. Кременчук<br>вул. Профспілкова, буд. 11</p>
                             </article>
@@ -401,7 +360,7 @@
                                 <p class="mt-2 text-[#6d6045]">Зателефонуйте нам або напишіть на email для консультації та оформлення замовлення.</p>
                                 <div class="mt-6 flex flex-col gap-3 sm:flex-row">
                                     <a href="tel:+380503403547" class="flex-1 rounded-lg bg-[#b86f17] px-5 py-3 text-center font-semibold text-white transition hover:bg-[#97580f]">Зателефонувати</a>
-                                    <a href="mailto:director@himpost.com" class="flex-1 rounded-lg border border-[#cdbb8c] bg-white px-5 py-3 text-center font-semibold transition hover:bg-[#fbf8ef]">Написати</a>
+                                    <a href="mailto:info@bee.lg.ua" class="flex-1 rounded-lg border border-[#cdbb8c] bg-white px-5 py-3 text-center font-semibold transition hover:bg-[#fbf8ef]">Написати</a>
                                 </div>
                             </article>
                         </div>
@@ -413,6 +372,7 @@
         @include('partials.footer')
 
         <livewire:order-form />
+        <livewire:contact-form />
 
         @fluxScripts
     </body>

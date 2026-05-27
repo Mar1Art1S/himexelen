@@ -17,7 +17,7 @@ class OrderMail extends Mailable implements ShouldQueue
     /**
      * Create a new message instance.
      *
-     * @param  array{name: string, phone: string, email: ?string, product: ?string, quantity: int, items: array, message: ?string, ip: ?string}  $orderData
+     * @param  array{name: string, phone: string, email: ?string, product: ?string, quantity: int, items: array, subtotal: int, discountRate: int, discountAmount: int, total: int, message: ?string, ip: ?string}  $orderData
      */
     public function __construct(public array $orderData)
     {

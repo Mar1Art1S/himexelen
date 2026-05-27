@@ -19,9 +19,7 @@
         <header class="sticky top-0 z-50 border-b border-[#e3d7b6] bg-[#fbf8ef]/90 backdrop-blur">
             <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <a href="{{ route('home') }}" class="flex items-center gap-3" id="nav-logo-link">
-                    <span class="flex size-10 items-center justify-center rounded-lg bg-[#b86f17] text-white">
-                        <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5ZM2 12l10 5 10-5M2 17l10 5 10-5" /></svg>
-                    </span>
+                    <img src="{{ asset('images/Logo.png') }}" alt="Логотип Хімекселен" class="h-10 w-auto object-contain">
                     <span class="flex flex-col leading-tight">
                         <span class="text-lg font-bold">Хімекселен</span>
                         <span class="text-xs text-[#766748]">Вулики з ППУ</span>
@@ -75,7 +73,7 @@
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="text-center max-w-3xl mx-auto mb-16">
                         <span class="text-sm font-semibold uppercase tracking-wider text-[#b86f17]">Екосистема брендів</span>
-                        <h1 class="font-serif text-4xl font-bold text-[#2f2718] sm:text-5xl mt-3" id="page-title">Галузеві проекти компанії Хімпостачальник</h1>
+                        <h1 class="font-serif text-4xl font-bold text-[#2f2718] sm:text-5xl mt-3" id="page-title">Галузеві проекти компанії <a href="https://himpost.com/" target="_blank" rel="noopener" class="text-[#b86f17] underline decoration-2 decoration-[#b86f17]/40 hover:decoration-[#b86f17] transition-all duration-200">Хімпостачальник</a></h1>
                         <p class="text-[#6d6045] mt-6 text-lg leading-8">
                             Спеціалізовані retail та галузеві проекти компанії Хімпостачальник для окремих напрямків продукції та промислових рішень.
                         </p>

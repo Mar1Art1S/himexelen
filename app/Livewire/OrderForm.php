@@ -3,6 +3,9 @@
 namespace App\Livewire;
 
 use App\Mail\OrderMail;
+use App\Models\ProductCategory;
+use App\Models\ProductComplectation;
+use App\Models\ProductComponent;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -178,6 +181,115 @@ class OrderForm extends Component
     }
 
     /**
+     * Resolve product price from dynamic DB records.
+     */
+    public function resolveProductPrice(string $name): int
+    {
+        $name = trim($name);
+
+        // 1. Check if it matches a basic hive
+        if (preg_match('/вулик на (\d+) рамок/ui', $name, $matches)) {
+            $frames = $matches[1]; // '8', '10', or '12'
+            $category = ProductCategory::where('slug', "{$frames}-frames")->first();
+            if ($category) {
+                $complectation = ProductComplectation::where('product_category_id', $category->id)
+                    ->where('name', 'Комплектація 1')
+                    ->first();
+                if ($complectation) {
+                    return $complectation->price;
+                }
+            }
+
+            return match ($frames) {
+                '8' => 2607,
+                '10' => 2837,
+                '12' => 3230,
+                default => 0,
+            };
+        }
+
+        // 2. Check if it's a complectation (e.g. "8 рамок, Комплектація 1")
+        if (preg_match('/^(8|10|12)\s+рамок,\s+(.+)$/u', $name, $matches)) {
+            $frames = $matches[1];
+            $compName = $matches[2];
+            $category = ProductCategory::where('slug', "{$frames}-frames")->first();
+            if ($category) {
+                $complectation = ProductComplectation::where('product_category_id', $category->id)
+                    ->where('name', $compName)
+                    ->first();
+                if ($complectation) {
+                    return $complectation->price;
+                }
+            }
+        }
+
+        $cleanedName = preg_replace('/^(8|10|12)\s+рамок,\s+/u', '', $name);
+        $complectation = ProductComplectation::where('name', $cleanedName)->first();
+        if ($complectation) {
+            return $complectation->price;
+        }
+
+        // 3. Check if it's a component
+        $component = ProductComponent::where('name', $name)->first();
+        if ($component) {
+            return $component->price;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Get the subtotal of the cart items.
+     */
+    public function subtotal(): int
+    {
+        if (empty($this->cartItems)) {
+            return $this->resolveProductPrice($this->product) * $this->quantity;
+        }
+
+        $subtotal = 0;
+        foreach ($this->cartItems as $item) {
+            $price = $this->resolveProductPrice($item['name']);
+            $subtotal += $price * $item['quantity'];
+        }
+
+        return $subtotal;
+    }
+
+    /**
+     * Get the discount rate based on subtotal.
+     */
+    public function discountRate(): int
+    {
+        $subtotal = $this->subtotal();
+
+        return match (true) {
+            $subtotal >= 120000 => 10,
+            $subtotal >= 90000 => 8,
+            $subtotal >= 70000 => 7,
+            $subtotal >= 50000 => 6,
+            $subtotal >= 30000 => 5,
+            default => 0,
+        };
+    }
+
+    /**
+     * Get the discount amount.
+     */
+    public function discountAmount(): int
+    {
+        return (int) round($this->subtotal() * $this->discountRate() / 100);
+    }
+
+    /**
+     * Get the total amount after discount.
+     */
+    public function total(): int
+    {
+        return $this->subtotal() - $this->discountAmount();
+    }
+
+    /**
      * Validate and submit the order.
      */
     public function submitOrder(): void
@@ -196,16 +308,20 @@ class OrderForm extends Component
             'product' => count($this->cartItems) === 1 ? $this->cartItems[0]['name'] : 'Декілька товарів ('.count($this->cartItems).' найменувань)',
             'quantity' => count($this->cartItems) === 1 ? $this->cartItems[0]['quantity'] : collect($this->cartItems)->sum('quantity'),
             'items' => $this->cartItems,
+            'subtotal' => $this->subtotal(),
+            'discountRate' => $this->discountRate(),
+            'discountAmount' => $this->discountAmount(),
+            'total' => $this->total(),
             'message' => $this->message ?: null,
             'ip' => request()->ip(),
         ];
 
         // Resolve recipient: check config or env first
-        $recipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'director@himpost.com');
+        $recipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'info@bee.lg.ua');
 
-        // Clean up recipient if it's malformed (e.g. directorhimpost.com without @)
+        // Clean up recipient if it's malformed
         if (! str_contains($recipient, '@')) {
-            $recipient = 'director@himpost.com';
+            $recipient = 'info@bee.lg.ua';
         }
 
         // Send the email
@@ -220,6 +336,17 @@ class OrderForm extends Component
      */
     public function render(): View
     {
-        return view('livewire.order-form');
+        $categories = ProductCategory::with(['complectations' => function ($query) {
+            $query->orderBy('sort_order');
+        }])->get();
+
+        $groupedComponents = ProductComponent::orderBy('sort_order')
+            ->get()
+            ->groupBy('group');
+
+        return view('livewire.order-form', [
+            'categories' => $categories,
+            'groupedComponents' => $groupedComponents,
+        ]);
     }
 }

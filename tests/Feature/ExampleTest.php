@@ -26,7 +26,7 @@ test('home page shows ppu hives landing content', function () {
         ->assertSee('Вулики з ППУ')
         ->assertSee('Наступне покоління')
         ->assertSee('Чому обирають вулики з ППУ?')
-        ->assertSee('director@himpost.com')
+        ->assertSee('info@bee.lg.ua')
         ->assertSee('+38 050 340 35 47');
 });
 
@@ -83,7 +83,8 @@ test('ecosystem page displays the brand ecosystem and industry projects', functi
     $response
         ->assertOk()
         ->assertSee('Екосистема брендів')
-        ->assertSee('Галузеві проекти компанії Хімпостачальник')
+        ->assertSee('Галузеві проекти компанії')
+        ->assertSee('Хімпостачальник')
         ->assertSee('ТехПолімер Маркет')
         ->assertSee('Спеціалізований retail та B2B-проект для технічних полімерів')
         ->assertSee('Прямі поставки полімерної сировини')
