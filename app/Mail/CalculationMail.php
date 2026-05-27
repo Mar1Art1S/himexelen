@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -24,8 +25,14 @@ class CalculationMail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $replyTo = [];
+        if (! empty($this->calcData['email'])) {
+            $replyTo[] = new Address($this->calcData['email'], $this->calcData['name']);
+        }
+
         return new Envelope(
             subject: 'Новий розрахунок вуликів з ППУ — '.$this->calcData['name'],
+            replyTo: $replyTo,
         );
     }
 

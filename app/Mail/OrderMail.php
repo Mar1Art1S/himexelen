@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -24,8 +25,14 @@ class OrderMail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $replyTo = [];
+        if (! empty($this->orderData['email'])) {
+            $replyTo[] = new Address($this->orderData['email'], $this->orderData['name']);
+        }
+
         return new Envelope(
             subject: 'Нове замовлення вуликів з ППУ — '.$this->orderData['name'],
+            replyTo: $replyTo,
         );
     }
 

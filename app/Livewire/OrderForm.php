@@ -6,6 +6,7 @@ use App\Mail\OrderMail;
 use App\Models\ProductCategory;
 use App\Models\ProductComplectation;
 use App\Models\ProductComponent;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -316,16 +317,18 @@ class OrderForm extends Component
             'ip' => request()->ip(),
         ];
 
-        // Resolve recipient: check config or env first
+        // Resolve recipient
         $recipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'info@bee.lg.ua');
-
-        // Clean up recipient if it's malformed
         if (! str_contains($recipient, '@')) {
-            $recipient = 'info@bee.lg.ua';
+            $recipient = config('mail.from.address') ?? 'info@bee.lg.ua';
         }
 
         // Send the email
-        Mail::to($recipient)->send(new OrderMail($orderData));
+        try {
+            Mail::to($recipient)->send(new OrderMail($orderData));
+        } catch (\Throwable $e) {
+            Log::error('OrderMail failed: '.$e->getMessage());
+        }
 
         // Mark as submitted
         $this->isSubmitted = true;

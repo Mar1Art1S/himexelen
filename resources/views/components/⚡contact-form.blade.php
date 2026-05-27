@@ -89,7 +89,7 @@ new class extends Component
         // Resolve recipient
         $recipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'info@bee.lg.ua');
         if (! str_contains($recipient, '@')) {
-            $recipient = 'info@bee.lg.ua';
+            $recipient = config('mail.from.address') ?? 'info@bee.lg.ua';
         }
 
         // Send email

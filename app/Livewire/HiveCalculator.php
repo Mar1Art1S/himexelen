@@ -449,7 +449,7 @@ class HiveCalculator extends Component
 
         // Clean up recipient if it's malformed
         if (! str_contains($recipient, '@')) {
-            $recipient = 'info@bee.lg.ua';
+            $recipient = config('mail.from.address') ?? 'info@bee.lg.ua';
         }
 
         // Send the email

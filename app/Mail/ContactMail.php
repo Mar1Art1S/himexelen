@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -24,8 +25,14 @@ class ContactMail extends Mailable
      */
     public function envelope(): Envelope
     {
+        $replyTo = [];
+        if (! empty($this->contactData['email'])) {
+            $replyTo[] = new Address($this->contactData['email'], $this->contactData['name']);
+        }
+
         return new Envelope(
             subject: 'Нове запитання з сайту — '.$this->contactData['name'],
+            replyTo: $replyTo,
         );
     }
 
