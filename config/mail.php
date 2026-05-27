@@ -126,6 +126,7 @@ return [
 
     'to' => [
         'address' => env('MAIL_TO_ADDRESS', 'info@bee.lg.ua'),
+        'name' => env('MAIL_TO_NAME', 'Хімекселен'),
     ],
 
 ];
