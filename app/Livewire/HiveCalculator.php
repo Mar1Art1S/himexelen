@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Mail\CalculationMail;
 use App\Models\ProductComplectation;
 use App\Models\ProductComponent;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Livewire\Component;
@@ -454,11 +453,7 @@ class HiveCalculator extends Component
         }
 
         // Send the email
-        try {
-            Mail::to($recipient)->send(new CalculationMail($calcData));
-        } catch (\Throwable $e) {
-            Log::error('CalculationMail failed: '.$e->getMessage());
-        }
+        Mail::to($recipient)->send(new CalculationMail($calcData));
 
         // Mark as sent
         $this->isSent = true;

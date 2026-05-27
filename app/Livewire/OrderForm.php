@@ -6,7 +6,6 @@ use App\Mail\OrderMail;
 use App\Models\ProductCategory;
 use App\Models\ProductComplectation;
 use App\Models\ProductComponent;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -324,11 +323,7 @@ class OrderForm extends Component
         }
 
         // Send the email
-        try {
-            Mail::to($recipient)->send(new OrderMail($orderData));
-        } catch (\Throwable $e) {
-            Log::error('OrderMail failed: '.$e->getMessage());
-        }
+        Mail::to($recipient)->send(new OrderMail($orderData));
 
         // Mark as submitted
         $this->isSubmitted = true;

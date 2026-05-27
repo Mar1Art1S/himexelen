@@ -93,11 +93,7 @@ new class extends Component
         }
 
         // Send email
-        try {
-            Mail::to($recipient)->send(new ContactMail($contactData));
-        } catch (\Throwable $e) {
-            \Illuminate\Support\Facades\Log::error('ContactMail failed: '.$e->getMessage());
-        }
+        Mail::to($recipient)->send(new ContactMail($contactData));
 
         $this->isSubmitted = true;
     }
