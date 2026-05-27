@@ -115,4 +115,17 @@ return [
         'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Laravel')),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Global "To" Address
+    |--------------------------------------------------------------------------
+    |
+    | All emails sent by the application will be delivered to this address.
+    |
+    */
+
+    'to' => [
+        'address' => env('MAIL_TO_ADDRESS', 'info@bee.lg.ua'),
+    ],
+
 ];
