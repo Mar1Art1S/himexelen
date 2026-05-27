@@ -445,7 +445,7 @@ class HiveCalculator extends Component
         ];
 
         // Resolve recipient: check config or env first
-        $recipient = config('mail.recipient') ?? env('MAIL_TO_ADDRESS', 'info@bee.lg.ua');
+        $recipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'info@bee.lg.ua');
 
         // Clean up recipient if it's malformed
         if (! str_contains($recipient, '@')) {

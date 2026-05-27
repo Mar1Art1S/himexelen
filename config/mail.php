@@ -117,14 +117,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Contact / Order Notification Recipient
+    | Global "To" Address
     |--------------------------------------------------------------------------
     |
-    | The email address where all customer questions, calculations, and orders
-    | will be delivered.
+    | All emails sent by the application will be delivered to this address.
     |
     */
 
-    'recipient' => env('MAIL_TO_ADDRESS', 'info@bee.lg.ua'),
+    'to' => [
+        'address' => env('MAIL_TO_ADDRESS', 'info@bee.lg.ua'),
+        'name' => env('MAIL_TO_NAME', 'Хімекселен'),
+    ],
 
 ];
