@@ -69,7 +69,7 @@ test('submitting valid order form dispatches order email to director', function 
         ->assertSet('isSubmitted', true);
 
     Mail::assertSent(OrderMail::class, function (OrderMail $mail) {
-        $expectedRecipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'info@bee.lg.ua');
+        $expectedRecipient = config('mail.recipient') ?? env('MAIL_TO_ADDRESS', 'info@bee.lg.ua');
         if (! str_contains($expectedRecipient, '@')) {
             $expectedRecipient = 'info@bee.lg.ua';
         }
