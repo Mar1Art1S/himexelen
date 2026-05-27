@@ -1,8 +1,10 @@
 <?php
 
 use App\Livewire\HiveCalculator;
+use App\Mail\CalculationMail;
 use Database\Seeders\AdminAndContentSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
@@ -122,7 +124,7 @@ test('unpacks package components into individual items in constructor correctly'
 });
 
 test('sends calculation email successfully with valid data', function () {
-    \Illuminate\Support\Facades\Mail::fake();
+    Mail::fake();
 
     Livewire::test(HiveCalculator::class)
         ->set('name', 'Іван Тест')
@@ -137,7 +139,7 @@ test('sends calculation email successfully with valid data', function () {
         ->assertSet('isSent', true)
         ->assertSee('Розрахунок успішно надіслано!');
 
-    \Illuminate\Support\Facades\Mail::assertQueued(\App\Mail\CalculationMail::class, function ($mail) {
+    Mail::assertSent(CalculationMail::class, function ($mail) {
         return $mail->calcData['name'] === 'Іван Тест' &&
                $mail->calcData['phone'] === '+380991234567' &&
                $mail->calcData['email'] === 'test@example.com' &&
@@ -147,7 +149,7 @@ test('sends calculation email successfully with valid data', function () {
 });
 
 test('fails sending calculation if name or phone are invalid', function () {
-    \Illuminate\Support\Facades\Mail::fake();
+    Mail::fake();
 
     // Missing name and phone
     Livewire::test(HiveCalculator::class)
@@ -160,11 +162,11 @@ test('fails sending calculation if name or phone are invalid', function () {
         ->call('sendCalculation')
         ->assertHasErrors(['name' => 'required', 'phone' => 'required']);
 
-    \Illuminate\Support\Facades\Mail::assertNothingQueued();
+    Mail::assertNothingQueued();
 });
 
 test('automatically adds current package in beginner mode when items are empty and send is clicked', function () {
-    \Illuminate\Support\Facades\Mail::fake();
+    Mail::fake();
 
     Livewire::test(HiveCalculator::class)
         ->set('mode', 'beginner')
@@ -178,10 +180,9 @@ test('automatically adds current package in beginner mode when items are empty a
         ->assertHasNoErrors()
         ->assertSet('isSent', true);
 
-    \Illuminate\Support\Facades\Mail::assertQueued(\App\Mail\CalculationMail::class, function ($mail) {
+    Mail::assertSent(CalculationMail::class, function ($mail) {
         return $mail->calcData['name'] === 'Іван Тест' &&
                count($mail->calcData['items']) === 1 && // automatically added 1 item
                $mail->calcData['items'][0]['packageKey'] === '3';
     });
 });
-

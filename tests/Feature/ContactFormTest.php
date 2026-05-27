@@ -61,7 +61,7 @@ test('submitting valid contact form dispatches contact email to director', funct
         ->assertHasNoErrors()
         ->assertSet('isSubmitted', true);
 
-    Mail::assertQueued(ContactMail::class, function (ContactMail $mail) {
+    Mail::assertSent(ContactMail::class, function (ContactMail $mail) {
         $expectedRecipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'info@bee.lg.ua');
         if (! str_contains($expectedRecipient, '@')) {
             $expectedRecipient = 'info@bee.lg.ua';

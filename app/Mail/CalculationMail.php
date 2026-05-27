@@ -2,18 +2,13 @@
 
 namespace App\Mail;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class CalculationMail extends Mailable implements ShouldQueue
+class CalculationMail extends Mailable
 {
-    use Queueable, SerializesModels;
-
     /**
      * Create a new message instance.
      *
@@ -30,7 +25,7 @@ class CalculationMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Новий розрахунок вуликів з ППУ — ' . $this->calcData['name'],
+            subject: 'Новий розрахунок вуликів з ППУ — '.$this->calcData['name'],
         );
     }
 

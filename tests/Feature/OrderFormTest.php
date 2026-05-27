@@ -68,7 +68,7 @@ test('submitting valid order form dispatches order email to director', function 
         ->assertHasNoErrors()
         ->assertSet('isSubmitted', true);
 
-    Mail::assertQueued(OrderMail::class, function (OrderMail $mail) {
+    Mail::assertSent(OrderMail::class, function (OrderMail $mail) {
         $expectedRecipient = config('mail.to.address') ?? env('MAIL_TO_ADDRESS', 'info@bee.lg.ua');
         if (! str_contains($expectedRecipient, '@')) {
             $expectedRecipient = 'info@bee.lg.ua';
@@ -114,7 +114,7 @@ test('order form allows adding and submitting multiple cart items', function () 
         ->assertHasNoErrors()
         ->assertSet('isSubmitted', true);
 
-    Mail::assertQueued(OrderMail::class, function (OrderMail $mail) {
+    Mail::assertSent(OrderMail::class, function (OrderMail $mail) {
         return $mail->orderData['name'] === 'Михайло' &&
                count($mail->orderData['items']) === 2 &&
                $mail->orderData['items'][0]['name'] === 'Вулик на 8 рамок' &&
