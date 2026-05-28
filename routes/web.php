@@ -13,6 +13,10 @@ Route::get('/sizes', function () {
 Route::view('/calculator', 'pages.calculator')->name('calculator');
 Route::view('/catalog', 'pages.catalog')->name('catalog');
 Route::view('/ecosystem', 'pages.ecosystem')->name('ecosystem');
+Route::view('/delivery-payment', 'pages.delivery-payment')->name('delivery-payment');
+Route::view('/warranty', 'pages.warranty')->name('warranty');
+Route::view('/privacy', 'pages.privacy')->name('privacy');
+Route::view('/terms', 'pages.terms')->name('terms');
 
 Route::get('/temp-parse', function () {
     $path = base_path('resources/127_0_0_1 (1).sql');

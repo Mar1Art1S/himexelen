@@ -43,6 +43,10 @@ test('public content pages are available', function (string $routeName, string $
     'sizes page' => ['sizes', 'Розміри'],
     'calculator page' => ['calculator', 'Калькулятор'],
     'ecosystem page' => ['ecosystem', 'Екосистема'],
+    'delivery-payment page' => ['delivery-payment', 'Доставка та оплата'],
+    'warranty page' => ['warranty', 'Гарантія'],
+    'privacy page' => ['privacy', 'Конфіденційність'],
+    'terms page' => ['terms', 'Терміни'],
 ]);
 
 test('instruction page links to copied pdf files', function () {

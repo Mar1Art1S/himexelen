@@ -29,7 +29,13 @@
                 <h3 class="text-sm font-semibold uppercase tracking-wider">Навігація</h3>
                 <ul class="mt-4 grid gap-3">
                     @foreach ($navigation as $item)
-                        <li><a href="{{ $item['href'] }}" class="text-sm text-white/70 transition hover:text-[#e6a83c]">{{ $item['name'] }}</a></li>
+                        @if (isset($item['children']))
+                            @foreach ($item['children'] as $child)
+                                <li><a href="{{ $child['href'] }}" class="text-sm text-white/70 transition hover:text-[#e6a83c]">{{ $child['name'] }}</a></li>
+                            @endforeach
+                        @elseif (isset($item['href']))
+                            <li><a href="{{ $item['href'] }}" class="text-sm text-white/70 transition hover:text-[#e6a83c]">{{ $item['name'] }}</a></li>
+                        @endif
                     @endforeach
                 </ul>
             </div>

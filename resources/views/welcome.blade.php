@@ -12,6 +12,15 @@
                 ['name' => 'Відеоматеріали', 'href' => route('video')],
                 ['name' => 'Калькулятор', 'href' => route('calculator')],
                 ['name' => 'Екосистема', 'href' => route('ecosystem')],
+                [
+                    'name' => 'Підтримка',
+                    'children' => [
+                        ['name' => 'Доставка та оплата', 'href' => route('delivery-payment')],
+                        ['name' => 'Гарантія', 'href' => route('warranty')],
+                        ['name' => 'Конфіденційність', 'href' => route('privacy')],
+                        ['name' => 'Терміни', 'href' => route('terms')],
+                    ]
+                ],
                 ['name' => 'Контакти', 'href' => '#contacts'],
             ];
 
@@ -62,7 +71,31 @@
 
                 <div class="hidden items-center gap-6 lg:flex">
                     @foreach ($navigation as $item)
-                        <a href="{{ $item['href'] }}" class="text-sm font-medium text-[#6d6045] transition hover:text-[#b86f17]">{{ $item['name'] }}</a>
+                        @if (isset($item['children']))
+                            <div class="relative" x-data="{ open: false }" @click.away="open = false">
+                                <button @click="open = !open" class="flex items-center gap-1 text-sm font-medium text-[#6d6045] transition hover:text-[#b86f17] focus:outline-hidden cursor-pointer">
+                                    <span>{{ $item['name'] }}</span>
+                                    <svg class="size-4 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                    </svg>
+                                </button>
+                                <div x-show="open" 
+                                     x-transition:enter="transition ease-out duration-100" 
+                                     x-transition:enter-start="opacity-0 scale-95" 
+                                     x-transition:enter-end="opacity-100 scale-100" 
+                                     x-transition:leave="transition ease-in duration-75" 
+                                     x-transition:leave-start="opacity-100 scale-100" 
+                                     x-transition:leave-end="opacity-0 scale-95" 
+                                     class="absolute left-0 mt-2 w-56 origin-top-left rounded-lg border border-[#e3d7b6] bg-[#fffdf8] p-1 shadow-lg ring-1 ring-black/5 z-50 focus:outline-hidden"
+                                     style="display: none;">
+                                    @foreach ($item['children'] as $child)
+                                        <a href="{{ $child['href'] }}" class="block rounded-md px-3 py-2 text-sm text-[#5d5035] hover:bg-[#f3ead3] hover:text-[#b86f17] transition">{{ $child['name'] }}</a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @else
+                            <a href="{{ $item['href'] }}" class="text-sm font-medium text-[#6d6045] transition hover:text-[#b86f17]">{{ $item['name'] }}</a>
+                        @endif
                     @endforeach
                 </div>
 
@@ -83,7 +116,23 @@
                     <div class="absolute right-0 mt-3 w-72 rounded-lg border border-[#e3d7b6] bg-[#fffdf8] p-4 shadow-xl">
                         <div class="grid gap-3">
                             @foreach ($navigation as $item)
-                                <a href="{{ $item['href'] }}" class="rounded-md px-3 py-2 text-base font-medium text-[#5d5035] hover:bg-[#f3ead3]">{{ $item['name'] }}</a>
+                                @if (isset($item['children']))
+                                    <details class="group">
+                                        <summary class="flex items-center justify-between rounded-md px-3 py-2 text-base font-medium text-[#5d5035] hover:bg-[#f3ead3] cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                                            <span>{{ $item['name'] }}</span>
+                                            <svg class="size-4 transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                                            </svg>
+                                        </summary>
+                                        <div class="mt-1 pl-4 grid gap-2">
+                                            @foreach ($item['children'] as $child)
+                                                <a href="{{ $child['href'] }}" class="rounded-md px-3 py-1.5 text-sm font-medium text-[#6d6045] hover:bg-[#f3ead3]">{{ $child['name'] }}</a>
+                                            @endforeach
+                                        </div>
+                                    </details>
+                                @else
+                                    <a href="{{ $item['href'] }}" class="rounded-md px-3 py-2 text-base font-medium text-[#5d5035] hover:bg-[#f3ead3]">{{ $item['name'] }}</a>
+                                @endif
                             @endforeach
                             <div class="mt-1">
                                 <button onclick="Livewire.dispatch('openOrderForm')" type="button" class="w-full inline-flex justify-center rounded-lg bg-[#b86f17] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#97580f] cursor-pointer">

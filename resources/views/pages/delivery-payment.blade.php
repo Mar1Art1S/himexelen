@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
     <head>
-        @include('partials.head', ['title' => 'Калькулятор'])
-        <meta name="description" content="Калькулятор вартості комплектацій вуликів з пінополіуретану ТМ Хімекселен.">
+        @include('partials.head', ['title' => 'Доставка та оплата'])
+        <meta name="description" content="Умови доставки та оплати вуликів з пінополіуретану ТМ Хімекселен по всій території України.">
     </head>
     <body class="bg-[#fbf8ef] text-[#2f2718] antialiased">
         @php
@@ -39,7 +39,7 @@
                     @foreach ($navigation as $item)
                         @if (isset($item['children']))
                             <div class="relative" x-data="{ open: false }" @click.away="open = false">
-                                <button @click="open = !open" class="flex items-center gap-1 text-sm font-medium transition hover:text-[#b86f17] focus:outline-hidden cursor-pointer text-[#6d6045]">
+                                <button @click="open = !open" class="flex items-center gap-1 text-sm font-medium transition hover:text-[#b86f17] focus:outline-hidden cursor-pointer text-[#b86f17] font-semibold">
                                     <span>{{ $item['name'] }}</span>
                                     <svg class="size-4 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
@@ -62,8 +62,8 @@
                         @else
                             <a href="{{ $item['href'] }}" @class([
                                 'text-sm font-medium transition hover:text-[#b86f17]',
-                                'text-[#b86f17] font-semibold' => request()->routeIs('calculator') && $item['name'] === 'Калькулятор',
-                                'text-[#6d6045]' => !(request()->routeIs('calculator') && $item['name'] === 'Калькулятор')
+                                'text-[#b86f17] font-semibold' => request()->url() === $item['href'],
+                                'text-[#6d6045]' => request()->url() !== $item['href']
                             ])>{{ $item['name'] }}</a>
                         @endif
                     @endforeach
@@ -117,24 +117,92 @@
         </header>
 
         <main>
-            <section class="bg-white py-16 sm:py-20">
+            <section class="bg-white py-16 sm:py-20 border-b border-[#e3d7b6]">
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="max-w-3xl">
-                        <span class="text-sm font-semibold uppercase tracking-wider text-[#b86f17]">Розрахунок замовлення</span>
-                        <h1 class="mt-4 font-serif text-4xl font-bold leading-tight sm:text-5xl">Калькулятор</h1>
+                        <span class="text-sm font-semibold uppercase tracking-wider text-[#b86f17]">Сервіс та обслуговування</span>
+                        <h1 class="mt-4 font-serif text-4xl font-bold leading-tight sm:text-5xl text-[#2f2718]">Доставка та оплата</h1>
                         <p class="mt-6 text-lg leading-8 text-[#6d6045]">
-                            Живий розрахунок вартості комплектацій 8, 10 та 12-рамкових вуликів із автоматичними знижками з прайс-сторінки.
+                            Ми робимо все можливе, щоб ваші вулики ТМ Хімекселен прибули вчасно та в ідеальному стані. Ознайомтеся з нашими методами доставки та варіантами оплати.
                         </p>
                     </div>
                 </div>
             </section>
 
-            <livewire:hive-calculator />
+            <section class="py-16 sm:py-20">
+                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
+                        <!-- Delivery Methods -->
+                        <div class="rounded-3xl border border-[#e2d4ad] bg-[#fffdfa] p-8 shadow-xs">
+                            <h2 class="font-serif text-2xl font-bold text-[#2f2718] mb-6 flex items-center gap-2">
+                                <span class="text-3xl">🚚</span> Способи доставки
+                            </h2>
+                            <div class="space-y-6">
+                                <div class="border-b border-[#e3d7b6]/60 pb-6">
+                                    <h3 class="font-semibold text-lg text-[#2f2718]">Нова Пошта</h3>
+                                    <p class="text-sm text-[#6d6045] mt-2">Швидка та надійна доставка у будь-яке відділення або за адресою по всій Україні. Найкращий вибір для невеликих та середніх замовлень.</p>
+                                </div>
+                                <div class="border-b border-[#e3d7b6]/60 pb-6">
+                                    <h3 class="font-semibold text-lg text-[#2f2718]">Укрпошта</h3>
+                                    <p class="text-sm text-[#6d6045] mt-2">Економічний та доступний спосіб доставки. Відправка здійснюється у будь-який населений пункт України.</p>
+                                </div>
+                                <div class="border-b border-[#e3d7b6]/60 pb-6">
+                                    <h3 class="font-semibold text-lg text-[#2f2718]">Делівері</h3>
+                                    <p class="text-sm text-[#6d6045] mt-2">Оптимальний вибір для великих та гуртових замовлень. Забезпечує вигідні тарифи для транспортування габаритних вантажів.</p>
+                                </div>
+                                <div class="border-b border-[#e3d7b6]/60 pb-6">
+                                    <h3 class="font-semibold text-lg text-[#2f2718]">Meest Express</h3>
+                                    <p class="text-sm text-[#6d6045] mt-2">Зручна кур'єрська доставка та широка мережа поштоматів по всій країні.</p>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-lg text-[#2f2718]">Самовивіз</h3>
+                                    <p class="text-sm text-[#6d6045] mt-2">Ви можете забрати своє замовлення самостійно з нашого складу за попередньою домовленістю.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Methods -->
+                        <div class="rounded-3xl border border-[#e2d4ad] bg-[#fffdfa] p-8 shadow-xs flex flex-col justify-between">
+                            <div>
+                                <h2 class="font-serif text-2xl font-bold text-[#2f2718] mb-6 flex items-center gap-2">
+                                    <span class="text-3xl">💳</span> Варіанти оплати
+                                </h2>
+                                <div class="space-y-6">
+                                    <div class="border-b border-[#e3d7b6]/60 pb-6">
+                                        <h3 class="font-semibold text-lg text-[#2f2718]">Безготівковий розрахунок</h3>
+                                        <p class="text-sm text-[#6d6045] mt-2">Оплата за реквізитами (IBAN) або виставленим рахунком для фізичних та юридичних осіб (ПП Хімпостачальник). Найнадійніший спосіб для офіційного оформлення.</p>
+                                    </div>
+                                    <div class="border-b border-[#e3d7b6]/60 pb-6">
+                                        <h3 class="font-semibold text-lg text-[#2f2718]">Оплата карткою</h3>
+                                        <p class="text-sm text-[#6d6045] mt-2">Швидка оплата онлайн на карту банку або через платіжні термінали.</p>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-lg text-[#2f2718]">Накладений платіж</h3>
+                                        <p class="text-sm text-[#6d6045] mt-2">Оплата готівкою чи карткою при отриманні товару у відділенні служби доставки (після перевірки цілісності та комплектації).</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 p-6 rounded-2xl bg-[#fffcf5] border border-[#f3ead3] text-sm text-[#766748] font-medium flex items-center gap-4">
+                                <span class="text-2xl">💡</span>
+                                <span>Маєте питання щодо доставки у ваш регіон або потребуєте індивідуального розрахунку вартості? Зв'яжіться з нами за допомогою кнопки нижче!</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 text-center">
+                        <button onclick="Livewire.dispatch('openContactForm')" type="button" class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#b86f17] px-6 py-3.5 text-sm font-bold text-white shadow-md hover:bg-[#97580f] transition cursor-pointer">
+                            Залишити запит на консультацію
+                        </button>
+                    </div>
+                </div>
+            </section>
         </main>
 
         @include('partials.footer')
 
         <livewire:order-form />
+        <livewire:contact-form />
 
         @fluxScripts
     </body>
