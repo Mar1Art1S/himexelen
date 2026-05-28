@@ -96,3 +96,14 @@ test('ecosystem page displays the brand ecosystem and industry projects', functi
         ->assertSee('Товари для бджільництва')
         ->assertSee('Сучасні полімерні вулики, годівниці');
 });
+
+test('sitemap route is available and returns valid XML', function () {
+    $response = $this->get('/sitemap.xml');
+
+    $response
+        ->assertOk()
+        ->assertHeader('content-type', 'text/xml; charset=UTF-8')
+        ->assertSee('urlset')
+        ->assertSee('http://himexelen.test')
+        ->assertSee('http://himexelen.test/catalog');
+});

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 
 Route::view('/', 'welcome')->name('home');
 Route::view('/video', 'pages.video')->name('video');
@@ -17,6 +19,48 @@ Route::view('/delivery-payment', 'pages.delivery-payment')->name('delivery-payme
 Route::view('/warranty', 'pages.warranty')->name('warranty');
 Route::view('/privacy', 'pages.privacy')->name('privacy');
 Route::view('/terms', 'pages.terms')->name('terms');
+
+Route::get('/sitemap.xml', function () {
+    $sitemap = Sitemap::create();
+
+    $sitemap->add(Url::create(route('home'))
+        ->setPriority(1.0)
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY));
+
+    $sitemap->add(Url::create(route('catalog'))
+        ->setPriority(0.9)
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY));
+
+    $sitemap->add(Url::create(route('video'))
+        ->setPriority(0.8)
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY));
+
+    $sitemap->add(Url::create(route('calculator'))
+        ->setPriority(0.8)
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY));
+
+    $sitemap->add(Url::create(route('ecosystem'))
+        ->setPriority(0.7)
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY));
+
+    $sitemap->add(Url::create(route('delivery-payment'))
+        ->setPriority(0.6)
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY));
+
+    $sitemap->add(Url::create(route('warranty'))
+        ->setPriority(0.6)
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY));
+
+    $sitemap->add(Url::create(route('privacy'))
+        ->setPriority(0.5)
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY));
+
+    $sitemap->add(Url::create(route('terms'))
+        ->setPriority(0.5)
+        ->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY));
+
+    return $sitemap->toResponse(request());
+});
 
 Route::get('/temp-parse', function () {
     $path = base_path('resources/127_0_0_1 (1).sql');
