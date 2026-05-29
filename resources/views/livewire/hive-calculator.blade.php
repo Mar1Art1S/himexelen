@@ -116,7 +116,16 @@
                                     </div>
                                 </div>
 
-                                <div class="flex-1"></div>
+                                <!-- Package items bullets -->
+                                <div class="space-y-2 my-4 flex-1">
+                                    @foreach ($package['components'] as $pComp)
+                                        <div class="flex items-center gap-2 text-xs text-zinc-700 font-medium">
+                                            <span class="text-amber-500 font-bold">✓</span>
+                                            <span class="text-zinc-800">{!! str_replace('годівниця', 'годівни&#1094;я', e($pComp['name'])) !!}</span>
+                                            <span class="ml-auto font-bold text-zinc-500">{{ $pComp['qty'] }} {{ $pComp['unit'] }}</span>
+                                        </div>
+                                    @endforeach
+                                </div>
 
                                 <button wire:click="selectPresetCard('{{ $key }}')" type="button" @class([
                                     'w-full py-2.5 rounded-xl font-bold text-xs transition duration-200 cursor-pointer uppercase tracking-wider text-center border',
