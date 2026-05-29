@@ -5,6 +5,7 @@
         <meta name="description" content="Політика конфіденційності та захисту персональних даних користувачів сайту ТМ Хімекселен.">
     </head>
     <body class="bg-[#fbf8ef] text-[#2f2718] antialiased">
+        @include('partials.noscript')
         @php
             $navigation = [
                 ['name' => 'Головна', 'href' => route('home')],

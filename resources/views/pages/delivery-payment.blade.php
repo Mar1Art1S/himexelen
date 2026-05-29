@@ -5,6 +5,7 @@
         <meta name="description" content="Умови доставки та оплати вуликів з пінополіуретану ТМ Хімекселен по всій території України.">
     </head>
     <body class="bg-[#fbf8ef] text-[#2f2718] antialiased">
+        @include('partials.noscript')
         @php
             $navigation = [
                 ['name' => 'Головна', 'href' => route('home')],
