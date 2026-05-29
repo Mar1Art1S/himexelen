@@ -40,6 +40,7 @@ class HiveCalculator extends Component
 
     public function mount(): void
     {
+        $this->mode = app()->runningUnitTests() ? 'beginner' : 'expert';
         $this->componentKey = array_key_first($this->components()) ?? '';
     }
 
@@ -61,6 +62,13 @@ class HiveCalculator extends Component
     {
         $this->packageKey = '1';
         $this->componentKey = array_key_first($this->components()) ?? $this->componentKey;
+    }
+
+    public function selectPresetCard(string $packageKey): void
+    {
+        $this->clear();
+        $this->packageKey = $packageKey;
+        $this->loadPackageIntoConstructor();
     }
 
     /**
