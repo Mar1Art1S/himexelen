@@ -17,17 +17,17 @@
         </div>
 
         <!-- Prominent Discount Notice Showcase -->
-        <div class="mb-10 rounded-3xl border border-amber-200 bg-gradient-to-r from-amber-50/80 via-orange-50/70 to-amber-50/80 p-5 sm:p-6 shadow-sm backdrop-blur-xs">
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div class="flex items-center gap-3">
-                    <span class="text-3xl select-none">🎁</span>
+        <div class="mb-10 rounded-3xl border-2 border-amber-300 bg-gradient-to-r from-amber-50/90 via-orange-50/80 to-amber-50/90 p-6 sm:p-8 shadow-sm backdrop-blur-xs">
+            <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex items-center gap-4">
+                    <span class="text-4xl select-none">🎁</span>
                     <div>
-                        <h4 class="text-base font-extrabold text-zinc-950 uppercase tracking-wide">Гнучка система автоматичних знижок!</h4>
-                        <p class="text-xs text-zinc-600 font-semibold mt-0.5">Сума знижки розраховується автоматично залежно від обсягу вашого замовлення:</p>
+                        <h4 class="text-lg sm:text-xl font-black text-zinc-950 uppercase tracking-wide">Гнучка система автоматичних знижок!</h4>
+                        <p class="text-sm text-zinc-700 font-semibold mt-1">Знижка збільшується автоматично при збільшенні суми вашого замовлення:</p>
                     </div>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-2.5 sm:grid-cols-5 lg:flex lg:items-center lg:gap-3 shrink-0">
+                <div class="grid grid-cols-2 gap-3 sm:grid-cols-5 lg:flex lg:items-center lg:gap-4 shrink-0">
                     @foreach ([
                         '30' => '5%',
                         '50' => '6%',
@@ -35,9 +35,9 @@
                         '90' => '8%',
                         '120' => '10%',
                     ] as $threshold => $percent)
-                        <div class="flex flex-col items-center justify-center rounded-2xl bg-white border border-amber-100/80 px-4 py-2 shadow-2xs hover:border-amber-300 transition duration-300">
-                            <span class="text-[9px] font-bold text-zinc-500 uppercase tracking-wider">від {{ $threshold }} тис. грн</span>
-                            <span class="text-lg font-black text-amber-600 leading-tight mt-0.5">{{ $percent }}</span>
+                        <div class="flex flex-col items-center justify-center rounded-2xl bg-white border-2 border-amber-200 px-6 py-3.5 shadow-xs hover:border-amber-400 hover:bg-amber-50/20 transition duration-300 min-w-[110px]">
+                            <span class="text-xs font-bold text-zinc-500 uppercase tracking-wider">від {{ $threshold }} тис.</span>
+                            <span class="text-3xl sm:text-4xl font-black text-amber-600 leading-none mt-1.5">{{ $percent }}</span>
                         </div>
                     @endforeach
                 </div>
