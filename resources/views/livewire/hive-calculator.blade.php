@@ -2,28 +2,44 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         
         <!-- Header Section -->
-        <div class="mb-10">
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="flex size-14 items-center justify-center rounded-2xl bg-amber-400 shadow-md text-3xl">
-                        🐝
-                    </div>
+        <div class="mb-8">
+            <div class="flex items-center gap-4">
+                <div class="flex size-14 items-center justify-center rounded-2xl bg-amber-400 shadow-md text-3xl">
+                    🐝
+                </div>
+                <div>
+                    <h2 class="text-3xl font-black text-zinc-950 font-serif leading-tight">Калькулятор комплектації пасіки</h2>
+                    <p class="mt-1 text-sm text-zinc-600">
+                        Сконструюйте ідеальні вулики для вашої пасіки в реальному часі без зайвих зусиль.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prominent Discount Notice Showcase -->
+        <div class="mb-10 rounded-3xl border border-amber-200 bg-gradient-to-r from-amber-50/80 via-orange-50/70 to-amber-50/80 p-5 sm:p-6 shadow-sm backdrop-blur-xs">
+            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl select-none">🎁</span>
                     <div>
-                        <h2 class="text-3xl font-black text-zinc-950 font-serif leading-tight">Калькулятор комплектації пасіки</h2>
-                        <p class="mt-1 text-sm text-zinc-600">
-                            Сконструюйте ідеальні вулики для вашої пасіки в реальному часі без зайвих зусиль.
-                        </p>
+                        <h4 class="text-base font-extrabold text-zinc-950 uppercase tracking-wide">Гнучка система автоматичних знижок!</h4>
+                        <p class="text-xs text-zinc-600 font-semibold mt-0.5">Сума знижки розраховується автоматично залежно від обсягу вашого замовлення:</p>
                     </div>
                 </div>
                 
-                <!-- Discount Notice Banner -->
-                <div class="rounded-2xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-xs text-zinc-800 shadow-xs sm:max-w-md backdrop-blur-xs">
-                    <div class="flex gap-2">
-                        <span class="text-amber-500 font-bold">⚠️ Автоматичні знижки при замовленні від:</span>
-                    </div>
-                    <p class="mt-1 font-semibold text-zinc-700">
-                        30 тис. грн — <span class="text-amber-600">5%</span> | 50 тис. грн — <span class="text-amber-600">6%</span> | 70 тис. грн — <span class="text-amber-600">7%</span> | 90 тис. грн — <span class="text-amber-600">8%</span> | 120 тис. грн — <span class="text-amber-600">10%</span>
-                    </p>
+                <div class="grid grid-cols-2 gap-2.5 sm:grid-cols-5 lg:flex lg:items-center lg:gap-3 shrink-0">
+                    @foreach ([
+                        '30' => '5%',
+                        '50' => '6%',
+                        '70' => '7%',
+                        '90' => '8%',
+                        '120' => '10%',
+                    ] as $threshold => $percent)
+                        <div class="flex flex-col items-center justify-center rounded-2xl bg-white border border-amber-100/80 px-4 py-2 shadow-2xs hover:border-amber-300 transition duration-300">
+                            <span class="text-[9px] font-bold text-zinc-500 uppercase tracking-wider">від {{ $threshold }} тис. грн</span>
+                            <span class="text-lg font-black text-amber-600 leading-tight mt-0.5">{{ $percent }}</span>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -121,7 +137,7 @@
                                     @foreach ($package['components'] as $pComp)
                                         <div class="flex items-center gap-2 text-xs text-zinc-700 font-medium">
                                             <span class="text-amber-500 font-bold">✓</span>
-                                            <span class="text-zinc-800">{!! str_replace('годівниця', 'годівни&#1094;я', e($pComp['name'])) !!}</span>
+                                            <span class="text-zinc-800">{{ $pComp['name'] }}</span>
                                             <span class="ml-auto font-bold text-zinc-500">{{ $pComp['qty'] }} {{ $pComp['unit'] }}</span>
                                         </div>
                                     @endforeach
@@ -142,25 +158,7 @@
                         @endforeach
                     </div>
 
-                    <!-- Склад обраної комплектації -->
-                    @php($selectedComponents = $this->selectedPackageComponents())
-                    @if ($selectedComponents !== [] && $packageKey)
-                        <div class="mt-6 rounded-2xl border border-amber-200 bg-amber-50/50 p-5">
-                            <div class="mb-3 flex items-center gap-2">
-                                <div class="flex size-8 items-center justify-center rounded-lg bg-amber-400 text-sm">📦</div>
-                                <h4 class="text-sm font-bold text-zinc-900">Що входить у {{ $this->selectedPackage()['name'] }}:</h4>
-                            </div>
-                            <div class="grid gap-2 sm:grid-cols-2">
-                                @foreach ($selectedComponents as $comp)
-                                    <div class="flex items-center gap-3 rounded-xl bg-white/80 px-4 py-2 border border-amber-100">
-                                        <span class="text-amber-500 font-bold">✓</span>
-                                        <span class="text-xs font-semibold text-zinc-800">{{ $comp['name'] }}</span>
-                                        <span class="ml-auto text-xs font-bold text-zinc-500">{{ $comp['qty'] }} {{ $comp['unit'] }}</span>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endif
+
                 </div>
 
                 @if ($mode === 'expert')

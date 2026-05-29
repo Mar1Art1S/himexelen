@@ -83,27 +83,16 @@ test('applies packaging box option correctly without discounting it', function (
 });
 
 test('displays package components when selecting a configuration', function () {
-    // 8-frame Комплектація 3 should show its component details
+    // Under the new open UI, all ready-set cards list their component details on the page
     Livewire::test(HiveCalculator::class)
         ->set('frameSize', '8')
-        ->set('packageKey', '3')
-        ->assertSee('Що входить у Комплектація 3:')
+        ->assertSee('Комплектація 3')
+        ->assertSee('Комплектація 1')
         ->assertSee('ДАХ 8')
         ->assertSee('ДНО в комплекті')
         ->assertSee('корпус 300 з кутиками')
         ->assertSee('корпус 145 з кутиками')
         ->assertSee('годівниця');
-
-    // Switching to Комплектація 1 (no годівниця)
-    Livewire::test(HiveCalculator::class)
-        ->set('frameSize', '8')
-        ->set('packageKey', '1')
-        ->assertSee('Що входить у Комплектація 1:')
-        ->assertSee('ДАХ 8')
-        ->assertSee('ДНО в комплекті')
-        ->assertSee('корпус 300 з кутиками')
-        ->assertSee('корпус 145 з кутиками')
-        ->assertDontSee('годівниця');
 });
 
 test('unpacks package components into individual items in constructor correctly', function () {
