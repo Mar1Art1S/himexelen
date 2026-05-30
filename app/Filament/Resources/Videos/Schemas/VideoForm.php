@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Videos\Schemas;
 
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -23,13 +24,16 @@ class VideoForm
                     ->helperText('Введіть 11-значний код відео або просто вставте повне посилання з YouTube.')
                     ->dehydrateStateUsing(fn ($state) => static::extractYoutubeId($state)),
 
-                Select::make('category')
+                FileUpload::make('image_path')
+                    ->label('Обкладинка відео')
+                    ->image()
+                    ->directory('videos/thumbnails')
+                    ->required()
+                    ->helperText('Завантажте зображення для прев’ю відео.'),
+
+                Select::make('video_category_id')
                     ->label('Категорія відображення')
-                    ->options([
-                        'general' => 'Вкладка "Відео" (Загальні)',
-                        'assembly' => 'Вкладка "Інструкція" (Відео збірки)',
-                    ])
-                    ->default('general')
+                    ->relationship('category', 'name')
                     ->required(),
 
                 TextInput::make('sort_order')

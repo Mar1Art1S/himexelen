@@ -1,40 +1,43 @@
 <?php
 
-namespace App\Filament\Resources\Videos\Tables;
+namespace App\Filament\Resources\VideoCategories\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
-class VideosTable
+class VideoCategoriesTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                ImageColumn::make('image_path')
-                    ->label('Обкладинка')
-                    ->square(),
-
-                TextColumn::make('title')
+                TextColumn::make('name')
                     ->label('Назва')
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('youtube_id')
-                    ->label('YouTube ID')
-                    ->copyable()
-                    ->searchable(),
+                TextColumn::make('slug')
+                    ->label('Slug')
+                    ->searchable()
+                    ->sortable(),
 
-                TextColumn::make('category.name')
-                    ->label('Категорія')
+                TextColumn::make('type')
+                    ->label('Тип відео')
                     ->badge()
-                    ->color('info')
+                    ->color(fn (string $state): string => match ($state) {
+                        'general' => 'success',
+                        'assembly' => 'warning',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'general' => 'Загальні огляди',
+                        'assembly' => 'Відео збірки',
+                        default => $state,
+                    })
                     ->sortable(),
 
                 TextColumn::make('sort_order')
@@ -42,9 +45,7 @@ class VideosTable
                     ->sortable(),
             ])
             ->filters([
-                SelectFilter::make('video_category_id')
-                    ->label('Категорія')
-                    ->relationship('category', 'name'),
+                //
             ])
             ->recordActions([
                 EditAction::make(),

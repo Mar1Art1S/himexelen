@@ -9,6 +9,7 @@ use App\Models\ProductComponent;
 use App\Models\Size;
 use App\Models\User;
 use App\Models\Video;
+use App\Models\VideoCategory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,7 +29,25 @@ class AdminAndContentSeeder extends Seeder
             ]);
         }
 
-        // 2. Seed Videos (General and Assembly)
+        // 2. Seed Video Categories and Videos
+        $generalCategory = VideoCategory::updateOrCreate(
+            ['slug' => 'zahalni-ohliady'],
+            [
+                'name' => 'Загальні огляди',
+                'type' => 'general',
+                'sort_order' => 10,
+            ]
+        );
+
+        $assemblyCategory = VideoCategory::updateOrCreate(
+            ['slug' => 'zbirka-elementiv-vulyka'],
+            [
+                'name' => 'Збірка елементів вулика',
+                'type' => 'assembly',
+                'sort_order' => 20,
+            ]
+        );
+
         $generalVideos = [
             ['title' => 'Огляд вуликів з ППУ', 'id' => 'PN5ktKn3dTM'],
             ['title' => 'Вулик на 8 рамок', 'id' => 'EcEZlWO9kZU'],
@@ -46,7 +65,7 @@ class AdminAndContentSeeder extends Seeder
 
         foreach ($generalVideos as $index => $v) {
             Video::updateOrCreate(
-                ['youtube_id' => $v['id'], 'category' => 'general'],
+                ['youtube_id' => $v['id'], 'video_category_id' => $generalCategory->id],
                 ['title' => $v['title'], 'sort_order' => ($index + 1) * 10]
             );
         }
@@ -64,7 +83,7 @@ class AdminAndContentSeeder extends Seeder
 
         foreach ($assemblyVideos as $index => $v) {
             Video::updateOrCreate(
-                ['youtube_id' => $v['id'], 'category' => 'assembly'],
+                ['youtube_id' => $v['id'], 'video_category_id' => $assemblyCategory->id],
                 ['title' => $v['title'], 'sort_order' => ($index + 1) * 10]
             );
         }

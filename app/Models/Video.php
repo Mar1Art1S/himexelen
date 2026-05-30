@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Video extends Model
 {
@@ -12,7 +13,18 @@ class Video extends Model
     protected $fillable = [
         'title',
         'youtube_id',
-        'category',
+        'image_path',
+        'video_category_id',
         'sort_order',
     ];
+
+    /**
+     * Get the category that owns the video.
+     *
+     * @return BelongsTo<VideoCategory, $this>
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(VideoCategory::class, 'video_category_id');
+    }
 }

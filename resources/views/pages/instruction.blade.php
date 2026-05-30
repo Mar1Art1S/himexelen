@@ -36,12 +36,16 @@
                 'pdf_url' => $inst->pdf_url,
             ]);
 
-        $assemblyVideos = \App\Models\Video::where('category', 'assembly')
+        $assemblyCategories = \App\Models\VideoCategory::where('type', 'assembly')
             ->orderBy('sort_order')
             ->get()
-            ->map(fn($v) => [
-                'title' => $v->title,
-                'id' => $v->youtube_id,
+            ->map(fn($cat) => [
+                'name' => $cat->name,
+                'videos' => $cat->videos()->orderBy('sort_order')->get()->map(fn($v) => [
+                    'title' => $v->title,
+                    'id' => $v->youtube_id,
+                    'image_url' => $v->image_path ? \Illuminate\Support\Facades\Storage::url($v->image_path) : "https://img.youtube.com/vi/{$v->youtube_id}/maxresdefault.jpg",
+                ]),
             ]);
     @endphp
 
@@ -184,55 +188,62 @@
         </section>
 
         <section class="border-t border-[#e3d7b6] bg-white py-16">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="max-w-3xl mb-10">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+                <div class="max-w-3xl">
                     <span class="text-sm font-semibold uppercase tracking-wider text-[#b86f17]">Відео-інструкції</span>
                     <h2 class="mt-2 text-3xl font-bold">Збірка елементів вулика</h2>
                     <p class="mt-4 text-base text-[#6d6045]">
-                        Детальні відео-інструкції зі складання окремих комплектуючих частин для 8-рамкового вулика
-                        Дадан.
+                        Детальні відео-інструкції зі складання окремих комплектуючих частин для вуликів ППУ.
                     </p>
                 </div>
 
-                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                    @foreach ($assemblyVideos as $video)
-                        <article
-                            class="overflow-hidden rounded-lg border border-[#e2d4ad] bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                            <div class="relative aspect-video w-full overflow-hidden bg-[#f3ead3] group cursor-pointer"
-                                onclick="window.open('https://www.youtube.com/watch?v={{ $video['id'] }}', '_blank')">
-                                <img loading="lazy"
-                                    src="https://img.youtube.com/vi/{{ $video['id'] }}/maxresdefault.jpg"
-                                    alt="{{ $video['title'] }}"
-                                    class="size-full object-cover group-hover:scale-105 transition duration-300" />
-                                <div
-                                    class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition">
-                                    <button
-                                        class="flex size-14 items-center justify-center rounded-full bg-[#b86f17] text-white shadow-lg group-hover:bg-[#97580f] transition opacity-90 group-hover:opacity-100">
-                                        <svg class="size-6 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M8 5v14l11-7z" />
-                                        </svg>
-                                    </button>
-                                </div>
+                @foreach ($assemblyCategories as $category)
+                    @if (count($category['videos']) > 0)
+                        <div>
+                            <h3 class="text-xl font-bold font-serif mb-6 text-[#2f2718] border-b border-[#e3d7b6] pb-2">{{ $category['name'] }}</h3>
+                            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                                @foreach ($category['videos'] as $video)
+                                    <article
+                                        class="overflow-hidden rounded-lg border border-[#e2d4ad] bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                                        <div class="relative aspect-video w-full overflow-hidden bg-[#f3ead3] group cursor-pointer"
+                                            onclick="window.open('https://www.youtube.com/watch?v={{ $video['id'] }}', '_blank')">
+                                            <img loading="lazy"
+                                                src="{{ $video['image_url'] }}"
+                                                alt="{{ $video['title'] }}"
+                                                class="size-full object-cover group-hover:scale-105 transition duration-300" />
+                                            <div
+                                                class="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/30 transition">
+                                                <button
+                                                    class="flex size-14 items-center justify-center rounded-full bg-[#b86f17] text-white shadow-lg group-hover:bg-[#97580f] transition opacity-90 group-hover:opacity-100">
+                                                    <svg class="size-6 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path d="M8 5v14l11-7z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="p-4 flex-1 flex flex-col justify-between">
+                                            <h3 class="text-sm font-semibold text-[#2f2718] line-clamp-2"
+                                                title="{{ $video['title'] }}">
+                                                {{ $video['title'] }}
+                                            </h3>
+                                            <a href="https://www.youtube.com/watch?v={{ $video['id'] }}" target="_blank"
+                                                class="mt-3 inline-flex items-center justify-center gap-2 rounded-lg bg-[#b86f17] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#97580f]">
+                                                Переглянути
+                                                <svg class="size-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4m4-6h-8m4 0l-4 4m4-4l4 4" />
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </article>
+                                @endforeach
                             </div>
-                            <div class="p-4 flex-1 flex flex-col justify-between">
-                                <h3 class="text-sm font-semibold text-[#2f2718] line-clamp-2"
-                                    title="{{ $video['title'] }}">
-                                    {{ $video['title'] }}
-                                </h3>
-                                <a href="https://www.youtube.com/watch?v={{ $video['id'] }}" target="_blank"
-                                    class="mt-3 inline-flex items-center justify-center gap-2 rounded-lg bg-[#b86f17] px-3 py-2 text-xs font-semibold text-white transition hover:bg-[#97580f]">
-                                    Переглянути
-                                    <svg class="size-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4m4-6h-8m4 0l-4 4m4-4l4 4" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
+                        </div>
+                    @endif
+                @endforeach
             </div>
         </section>
+
     </main>
 
     <footer class="bg-[#2f2718] py-8 text-[#fbf8ef]">
