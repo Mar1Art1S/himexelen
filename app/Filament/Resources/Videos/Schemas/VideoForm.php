@@ -30,7 +30,10 @@ class VideoForm
                     ->image()
                     ->directory('videos/thumbnails')
                     ->required()
-                    ->helperText('Завантажте зображення для прев’ю відео.'),
+                    ->imageCropAspectRatio('1:1')
+                    ->imageResizeTargetWidth('520')
+                    ->imageResizeTargetHeight('520')
+                    ->helperText('Завантажте зображення для прев’ю відео (квадратне, розміром 520x520 пікселів).'),
 
                 Select::make('video_category_id')
                     ->label('Категорія відображення')

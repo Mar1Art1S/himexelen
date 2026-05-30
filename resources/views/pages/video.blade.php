@@ -240,7 +240,7 @@
                                 @foreach ($category['videos'] as $video)
                                     <article
                                         class="overflow-hidden rounded-lg border border-[#e2d4ad] bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                                        <div class="relative aspect-video w-full overflow-hidden bg-[#f3ead3] group cursor-pointer"
+                                        <div class="relative aspect-square w-full overflow-hidden bg-[#f3ead3] group cursor-pointer"
                                             onclick="window.open('https://www.youtube.com/watch?v={{ $video['id'] }}', '_blank')">
                                             <img loading="lazy"
                                                 src="{{ $video['image_url'] }}"
@@ -331,7 +331,7 @@
                                     @foreach ($category['videos'] as $video)
                                         <article
                                             class="overflow-hidden rounded-lg border border-[#e2d4ad] bg-white shadow-sm flex flex-col justify-between hover:shadow-md transition">
-                                            <div class="relative aspect-video w-full overflow-hidden bg-[#f3ead3] group cursor-pointer"
+                                            <div class="relative aspect-square w-full overflow-hidden bg-[#f3ead3] group cursor-pointer"
                                                 onclick="window.open('https://www.youtube.com/watch?v={{ $video['id'] }}', '_blank')">
                                                 <img loading="lazy"
                                                     src="{{ $video['image_url'] }}"
