@@ -26,6 +26,7 @@ class VideoForm
 
                 FileUpload::make('image_path')
                     ->label('Обкладинка відео')
+                    ->disk('public')
                     ->image()
                     ->directory('videos/thumbnails')
                     ->required()

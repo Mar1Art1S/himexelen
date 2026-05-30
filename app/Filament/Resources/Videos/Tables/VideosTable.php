@@ -19,6 +19,7 @@ class VideosTable
             ->columns([
                 ImageColumn::make('image_path')
                     ->label('Обкладинка')
+                    ->disk('public')
                     ->square(),
 
                 TextColumn::make('title')
