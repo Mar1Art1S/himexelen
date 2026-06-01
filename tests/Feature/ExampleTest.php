@@ -107,3 +107,13 @@ test('sitemap route is available and returns valid XML', function () {
         ->assertSee('http://himexelen.test')
         ->assertSee('http://himexelen.test/catalog');
 });
+
+test('non-existent route returns 404 status and renders custom 404 page with beehive illustration', function () {
+    $response = $this->get('/some-non-existent-page-url');
+
+    $response
+        ->assertStatus(404)
+        ->assertSee('Помилка 404')
+        ->assertSee('бджоли залетіли не в той вулик')
+        ->assertSee('beehive_404.png');
+});
