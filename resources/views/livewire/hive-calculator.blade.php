@@ -19,7 +19,7 @@
             <div class="space-y-6 lg:col-span-7 xl:col-span-8 lg:max-h-[calc(100vh-220px)] lg:overflow-y-auto lg:pr-6 lg:pl-1 lg:py-2">
                 
                 <!-- ─── КРОК 1: КОНТАКТИ ДЛЯ ЗАМОВЛЕННЯ ─── -->
-                <div class="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 shadow-xs">
+                <div class="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-6 lg:p-8 shadow-xs">
                     <h3 class="text-xl font-black text-zinc-950 mb-6 flex items-center gap-3">
                         <span class="flex size-10 items-center justify-center rounded-xl bg-amber-400 text-white text-lg font-black">1</span>
                         Залиште контакти для замовлення
@@ -66,7 +66,7 @@
                 </div>
 
                 <!-- ─── КРОК 2: Розмір вулика ─── -->
-                <div class="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 shadow-xs">
+                <div class="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-6 lg:p-8 shadow-xs">
                     <h3 class="text-xl font-black text-zinc-950 mb-5 flex items-center gap-3">
                         <span class="flex size-10 items-center justify-center rounded-xl bg-amber-400 text-white text-lg font-black">2</span>
                         Оберіть розмір вулика
@@ -93,7 +93,7 @@
                 </div>
 
                 <!-- ─── КРОК 3: Комплектація ─── -->
-                <div class="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 shadow-xs">
+                <div class="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-6 lg:p-8 shadow-xs">
                     <h3 class="text-xl font-black text-zinc-950 mb-5 flex items-center gap-3">
                         <span class="flex size-10 items-center justify-center rounded-xl bg-amber-400 text-white text-lg font-black">3</span>
                         Оберіть комплектацію
@@ -169,7 +169,7 @@
                     </div>
                 </div>
 
-                    <div class="rounded-2xl border border-zinc-200 bg-white p-6 sm:p-8 shadow-xs">
+                    <div class="rounded-2xl border border-zinc-200 bg-white p-4 sm:p-6 lg:p-8 shadow-xs">
                         <div class="mb-6 flex items-center justify-between gap-3 border-b border-zinc-100 pb-4">
                             <h3 class="text-xl font-bold text-zinc-950 flex items-center gap-3">
                                 <span>🔧</span> Конструктор деталей
@@ -189,13 +189,13 @@
                                 @foreach ($this->components() as $key => $component)
                                     @if ($component['group'] !== 'інше')
                                         <div @class([
-                                            'flex items-center justify-between gap-3 rounded-xl border-2 p-3.5 transition duration-200',
+                                            'flex items-center justify-between gap-3 rounded-xl border-2 p-3 transition duration-200',
                                             'border-amber-400 bg-amber-50/10' => $this->getItemQuantity($key) > 0,
                                             'border-zinc-100 bg-zinc-50/60' => $this->getItemQuantity($key) == 0,
                                         ])>
-                                            <div class="min-w-0">
-                                                <h5 class="text-sm font-bold text-zinc-950 leading-tight truncate">{{ $component['name'] }}</h5>
-                                                <span class="text-xs font-black text-amber-700">{{ number_format($component['price'], 0, ',', ' ') }} грн</span>
+                                            <div class="min-w-0 flex-1">
+                                                <h5 class="text-sm font-bold text-zinc-950 leading-tight break-words whitespace-normal">{{ $component['name'] }}</h5>
+                                                <span class="text-xs font-black text-amber-700 block mt-1">{{ number_format($component['price'], 0, ',', ' ') }} грн</span>
                                             </div>
                                             <div class="flex items-center gap-1 shrink-0 bg-white rounded-lg border border-zinc-200 p-0.5">
                                                 <button type="button" wire:click="decrementComponent('{{ $key }}')"
@@ -221,13 +221,13 @@
                                 @foreach ($this->components() as $key => $component)
                                     @if ($component['group'] === 'інше')
                                         <div @class([
-                                            'flex items-center justify-between gap-3 rounded-xl border-2 p-3.5 transition duration-200',
+                                            'flex items-center justify-between gap-3 rounded-xl border-2 p-3 transition duration-200',
                                             'border-amber-400 bg-amber-50/10' => $this->getItemQuantity($key) > 0,
                                             'border-zinc-100 bg-zinc-50/60' => $this->getItemQuantity($key) == 0,
                                         ])>
-                                            <div class="min-w-0">
-                                                <h5 class="text-sm font-bold text-zinc-950 leading-tight truncate">{{ $component['name'] }}</h5>
-                                                <span class="text-xs font-black text-amber-700">{{ number_format($component['price'], 0, ',', ' ') }} грн</span>
+                                            <div class="min-w-0 flex-1">
+                                                <h5 class="text-sm font-bold text-zinc-950 leading-tight break-words whitespace-normal">{{ $component['name'] }}</h5>
+                                                <span class="text-xs font-black text-amber-700 block mt-1">{{ number_format($component['price'], 0, ',', ' ') }} грн</span>
                                             </div>
                                             <div class="flex items-center gap-1 shrink-0 bg-white rounded-lg border border-zinc-200 p-0.5">
                                                 <button type="button" wire:click="decrementComponent('{{ $key }}')"
