@@ -572,7 +572,19 @@
         </section>
 
         <!-- Sizes of Frames Section -->
-        <section class="border-t border-[#e3d7b6] py-16">
+        <section class="border-t border-[#e3d7b6] py-16" x-data="{ 
+            showLightbox: false,
+            lightboxSrc: '',
+            lightboxTitle: '',
+            openLightbox(src, title) {
+                this.lightboxSrc = src;
+                this.lightboxTitle = title;
+                this.showLightbox = true;
+            },
+            closeLightbox() {
+                this.showLightbox = false;
+            }
+        }">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="flex items-end justify-between gap-6">
                     <div>
@@ -583,13 +595,45 @@
                 <div class="mt-8 grid gap-6 md:grid-cols-3">
                     @foreach ($frames as $frame)
                         <article class="overflow-hidden rounded-lg border border-[#e2d4ad] bg-white shadow-sm">
-                            <img src="{{ $frame['image_url'] }}" alt="{{ $frame['title'] }}" class="aspect-square w-full object-cover">
+                            <img src="{{ $frame['image_url'] }}" alt="{{ $frame['title'] }}" 
+                                 @click="openLightbox('{{ $frame['image_url'] }}', '{{ $frame['title'] }}')"
+                                 class="aspect-square w-full object-cover cursor-zoom-in transition duration-300 hover:scale-102">
                             <div class="p-5">
                                 <h3 class="text-xl font-semibold">{{ $frame['title'] }}</h3>
                                 <p class="mt-2 text-sm leading-6 text-[#6d6045]">{{ $frame['description'] }}</p>
                             </div>
                         </article>
                     @endforeach
+                </div>
+            </div>
+
+            <!-- Lightbox Modal -->
+            <div x-show="showLightbox" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0"
+                 x-transition:enter-end="opacity-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100"
+                 x-transition:leave-end="opacity-0"
+                 class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/85 p-4"
+                 @click="closeLightbox()"
+                 style="display: none;"
+                 @keydown.escape.window="closeLightbox()">
+                
+                <div class="relative max-w-5xl w-full flex flex-col items-center justify-center" @click.stop>
+                    <!-- Close Button -->
+                    <button @click="closeLightbox()" class="absolute -top-12 right-0 text-white hover:text-[#cdbb8c] cursor-pointer text-sm font-bold flex items-center gap-1">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Закрити
+                    </button>
+
+                    <!-- Image -->
+                    <img :src="lightboxSrc" :alt="lightboxTitle" class="max-h-[80vh] max-w-full rounded-2xl border border-white/10 shadow-2xl object-contain bg-[#fbf8ef] p-2">
+                    
+                    <!-- Title -->
+                    <h4 class="mt-4 text-center font-serif text-xl font-bold text-white" x-text="lightboxTitle"></h4>
                 </div>
             </div>
         </section>
