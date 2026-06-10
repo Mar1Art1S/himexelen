@@ -88,7 +88,7 @@
             </div>
 
             <div class="hidden items-center gap-3 md:flex">
-                <button onclick="Livewire.dispatch(\'openCallbackForm\')" type="button" 
+                <button onclick="Livewire.dispatch('openCallbackForm')" type="button" 
                     class="rounded-lg border border-[#cdbb8c] px-4 py-2 text-sm font-semibold text-[#2f2718] transition hover:bg-white" cursor-pointer>Подзвонити</button>
                 
             </div>
@@ -121,7 +121,7 @@
                                 <a href="{{ $item['href'] }}" class="rounded-md px-3 py-2 text-base font-medium text-[#5d5035] hover:bg-[#f3ead3]">{{ $item['name'] }}</a>
                             @endif
                         @endforeach
-                        <button onclick="Livewire.dispatch(\'openCallbackForm\')" type="button"  class="mt-2 rounded-lg border border-[#cdbb8c] px-4 py-3 text-center font-semibold text-[#2f2718] transition hover:bg-white" cursor-pointer>Замовити дзвінок</button>
+                        <button onclick="Livewire.dispatch('openCallbackForm')" type="button"  class="mt-2 rounded-lg border border-[#cdbb8c] px-4 py-3 text-center font-semibold text-[#2f2718] transition hover:bg-white" cursor-pointer>Замовити дзвінок</button>
                         
                     </div>
                 </div>
