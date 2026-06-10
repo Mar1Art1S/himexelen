@@ -40,6 +40,15 @@
             $hivesCatalog = [];
             $rawComponents = [];
         }
+
+        $frames = \App\Models\Size::where('type', 'frame')
+            ->orderBy('sort_order')
+            ->get()
+            ->map(fn($f) => [
+                'title' => $f->title,
+                'image_url' => $f->image_url,
+                'description' => $f->description,
+            ]);
     @endphp
 
     <header class="sticky top-0 z-50 border-b border-[#e3d7b6] bg-[#fbf8ef]/90 backdrop-blur">
@@ -558,6 +567,29 @@
                     <a href="{{ route('calculator') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#b86f17] px-6 py-3.5 text-sm font-bold text-white shadow-md hover:bg-[#97580f] transition">
                         <span>🧮 Перейти до калькулятора та обрати свій набір для вулика</span>
                     </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sizes of Frames Section -->
+        <section class="border-t border-[#e3d7b6] py-16">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex items-end justify-between gap-6">
+                    <div>
+                        <span class="text-sm font-semibold uppercase tracking-wider text-[#b86f17]">Креслення</span>
+                        <h2 class="mt-2 text-3xl font-bold">Розміри рамок</h2>
+                    </div>
+                </div>
+                <div class="mt-8 grid gap-6 md:grid-cols-3">
+                    @foreach ($frames as $frame)
+                        <article class="overflow-hidden rounded-lg border border-[#e2d4ad] bg-white shadow-sm">
+                            <img src="{{ $frame['image_url'] }}" alt="{{ $frame['title'] }}" class="aspect-square w-full object-cover">
+                            <div class="p-5">
+                                <h3 class="text-xl font-semibold">{{ $frame['title'] }}</h3>
+                                <p class="mt-2 text-sm leading-6 text-[#6d6045]">{{ $frame['description'] }}</p>
+                            </div>
+                        </article>
+                    @endforeach
                 </div>
             </div>
         </section>
