@@ -175,3 +175,66 @@ test('automatically adds current package in beginner mode when items are empty a
                $mail->calcData['items'][0]['packageKey'] === '3';
     });
 });
+
+test('preview pricing shows correct values in beginner mode without items', function () {
+    // 8-frame Комплектація 3 = 3,112 грн each
+    // 15 units = 46,680 грн subtotal → ≥30,000 → 5% discount = 2,334 грн → Total = 44,346 грн
+    $component = Livewire::test(HiveCalculator::class)
+        ->set('mode', 'beginner')
+        ->set('frameSize', '8')
+        ->set('packageKey', '3')
+        ->set('quantity', 15);
+
+    expect($component->instance()->previewSubtotal())->toBe(46680);
+    expect($component->instance()->previewDiscountRate())->toBe(5);
+    expect($component->instance()->previewDiscountAmount())->toBe(2334);
+    expect($component->instance()->previewTotal())->toBe(44346);
+});
+
+test('preview pricing falls back to component methods when items exist', function () {
+    $component = Livewire::test(HiveCalculator::class)
+        ->set('frameSize', '8')
+        ->set('packageKey', '3')
+        ->set('quantity', 15)
+        ->call('addItem');
+
+    // When items exist, preview methods should delegate to the real methods
+    expect($component->instance()->previewSubtotal())->toBe($component->instance()->subtotal());
+    expect($component->instance()->previewDiscountRate())->toBe($component->instance()->discountRate());
+    expect($component->instance()->previewDiscountAmount())->toBe($component->instance()->discountAmount());
+    expect($component->instance()->previewTotal())->toBe($component->instance()->total());
+});
+
+test('preview packaging works correctly in beginner mode', function () {
+    $component = Livewire::test(HiveCalculator::class)
+        ->set('mode', 'beginner')
+        ->set('frameSize', '8')
+        ->set('packageKey', '3')
+        ->set('quantity', 10)
+        ->set('includePackaging', true);
+
+    // 10 hives × 70 грн = 700 грн packaging
+    expect($component->instance()->previewPackaging())->toBe(700);
+
+    // Total = 31,120 (subtotal) - 1,556 (5% discount) + 700 (packaging) = 30,264
+    expect($component->instance()->previewSubtotal())->toBe(31120);
+    expect($component->instance()->previewTotal())->toBe(30264);
+});
+
+test('calculator defaults to beginner mode', function () {
+    Livewire::test(HiveCalculator::class)
+        ->assertSet('mode', 'beginner');
+});
+
+test('manages per-package quantity inputs and adds package correctly', function () {
+    $component = Livewire::test(HiveCalculator::class)
+        ->set('frameSize', '8')
+        ->call('incrementQuantity', '3')
+        ->call('incrementQuantity', '3')
+        ->call('decrementQuantity', '3')
+        ->assertSet('quantities.3', 2)
+        ->call('addPackage', '3')
+        ->assertSet('items.0.packageKey', '3')
+        ->assertSet('items.0.quantity', 2)
+        ->assertSet('quantities.3', 1);
+});

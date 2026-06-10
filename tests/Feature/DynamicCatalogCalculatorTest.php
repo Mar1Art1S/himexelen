@@ -29,7 +29,7 @@ test('calculator loads packages and components from the database', function () {
     // Test Livewire component loading initial catalog from db
     Livewire::test(HiveCalculator::class)
         ->assertSet('frameSize', '10')
-        ->assertSet('packageKey', '2');
+        ->assertSet('packageKey', '');
 });
 
 test('updating product component price in database instantly updates calculator subtotal', function () {

@@ -18,7 +18,7 @@
         @php
             $navigation = [
                 ['name' => 'Головна', 'href' => route('home')],
-                ['name' => 'Каталог', 'href' => route('catalog')],
+                ['name' => 'Продукція та ціни', 'href' => route('catalog')],
                 ['name' => 'Відеоматеріали', 'href' => route('video')],
                 ['name' => 'Калькулятор', 'href' => route('calculator')],
                 ['name' => 'Екосистема', 'href' => route('ecosystem')],
@@ -77,10 +77,8 @@
                 </div>
 
                 <div class="hidden items-center gap-3 md:flex">
-                    <a href="tel:+380503403547" class="rounded-lg border border-[#cdbb8c] px-4 py-2 text-sm font-semibold text-[#2f2718] transition hover:bg-white">Подзвонити</a>
-                    <button onclick="Livewire.dispatch('openOrderForm')" type="button" class="inline-flex w-auto items-center justify-center rounded-lg bg-[#b86f17] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#97580f] focus:outline-hidden focus:ring-2 focus:ring-[#b86f17] focus:ring-offset-2 cursor-pointer">
-                        Замовити
-                    </button>
+                    <button onclick="Livewire.dispatch(\'openCallbackForm\')" type="button"  class="rounded-lg border border-[#cdbb8c] px-4 py-2 text-sm font-semibold text-[#2f2718] transition hover:bg-white" cursor-pointer>Подзвонити</button>
+                    
                 </div>
 
                 <details class="relative md:hidden">
@@ -112,10 +110,8 @@
                                 @endif
                             @endforeach
                             <hr class="border-[#e3d7b6]">
-                            <a href="tel:+380503403547" class="flex justify-center rounded-lg border border-[#cdbb8c] px-4 py-2 text-sm font-semibold text-[#2f2718] transition hover:bg-white">Подзвонити</a>
-                            <button onclick="Livewire.dispatch('openOrderForm')" type="button" class="inline-flex w-full items-center justify-center rounded-lg bg-[#b86f17] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#97580f] cursor-pointer">
-                                Замовити
-                            </button>
+                            <button onclick="Livewire.dispatch(\'openCallbackForm\')" type="button"  class="flex justify-center rounded-lg border border-[#cdbb8c] px-4 py-2 text-sm font-semibold text-[#2f2718] transition hover:bg-white" cursor-pointer>Подзвонити</button>
+                            
                         </div>
                     </div>
                 </details>
@@ -153,10 +149,9 @@
 
         <!-- FOOTER -->
         @include('partials.footer')
-
-        <livewire:order-form />
         <livewire:contact-form />
 
+                <livewire:callback-form />
         @fluxScripts
     </body>
 </html>

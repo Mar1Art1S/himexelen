@@ -13,15 +13,6 @@ test('order form component can be rendered', function () {
         ->assertSet('isSubmitted', false);
 });
 
-test('public pages render the order form component', function () {
-    $this->get(route('home'))->assertOk()->assertSeeLivewire(OrderForm::class);
-    $this->get(route('calculator'))->assertOk()->assertSeeLivewire(OrderForm::class);
-    $this->followingRedirects()->get(route('sizes'))->assertOk()->assertSeeLivewire(OrderForm::class);
-    $this->get(route('video'))->assertOk()->assertSeeLivewire(OrderForm::class);
-    $this->followingRedirects()->get(route('instruction'))->assertOk()->assertSeeLivewire(OrderForm::class);
-    $this->get(route('ecosystem'))->assertOk()->assertSeeLivewire(OrderForm::class);
-});
-
 test('order form triggers open and close states correctly', function () {
     Livewire::test(OrderForm::class)
         ->assertSet('showModal', false)

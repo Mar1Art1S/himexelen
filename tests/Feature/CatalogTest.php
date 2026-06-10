@@ -1,6 +1,5 @@
 <?php
 
-use App\Livewire\OrderForm;
 use Database\Seeders\AdminAndContentSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -15,17 +14,13 @@ test('catalog page renders successfully', function () {
 
     $response->assertStatus(200)
         ->assertSee('Каталог товарів ТМ Хімекселен')
-        ->assertSee('Продукція та ціни')
-        ->assertSee('Вулик на 8 рамок')
-        ->assertSee('Вулик на 10 рамок')
-        ->assertSee('Вулик на 12 рамок')
-        ->assertSeeLivewire(OrderForm::class);
+        ->assertSee('Продукція та ціни');
 });
 
 test('public pages have catalog link in header navigation', function () {
-    $this->get(route('home'))->assertSee('Каталог');
-    $this->followingRedirects()->get(route('sizes'))->assertSee('Каталог');
-    $this->get(route('calculator'))->assertSee('Каталог');
+    $this->get(route('home'))->assertSee('Продукція та ціни');
+    $this->followingRedirects()->get(route('sizes'))->assertSee('Продукція та ціни');
+    $this->get(route('calculator'))->assertSee('Продукція та ціни');
 });
 
 test('public pages have ecosystem link in header navigation', function () {

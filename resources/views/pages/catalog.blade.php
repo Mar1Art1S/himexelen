@@ -6,12 +6,12 @@
     <meta name="description" content="Каталог продукції ТМ Хімекселен: вулики з ППУ на 8, 10 та 12 рамок, а також повний асортимент оригінальних комплектуючих.">
 </head>
 
-<body class="bg-[#fbf8ef] text-[#2f2718] antialiased" x-data="{ activeTab: (new URLSearchParams(window.location.search)).get('tab') || 'all' }">
+<body class="bg-[#fbf8ef] text-[#2f2718] antialiased" x-data="{ activeTab: (new URLSearchParams(window.location.search)).get('tab') || '12-frame' }">
     @include('partials.noscript')
     @php
         $navigation = [
             ['name' => 'Головна', 'href' => route('home')],
-            ['name' => 'Каталог', 'href' => route('catalog')],
+            ['name' => 'Продукція та ціни', 'href' => route('catalog')],
             ['name' => 'Відеоматеріали', 'href' => route('video')],
             ['name' => 'Калькулятор', 'href' => route('calculator')],
             ['name' => 'Екосистема', 'href' => route('ecosystem')],
@@ -80,19 +80,17 @@
                         <a href="{{ $item['href'] }}"
                             @class([
                                 'text-sm font-medium transition hover:text-[#b86f17]',
-                                'text-[#b86f17] font-semibold' => request()->routeIs('catalog') && $item['name'] === 'Каталог',
-                                'text-[#6d6045]' => !(request()->routeIs('catalog') && $item['name'] === 'Каталог')
+                                'text-[#b86f17] font-semibold' => request()->routeIs('catalog') && $item['name'] === 'Продукція та ціни',
+                                'text-[#6d6045]' => !(request()->routeIs('catalog') && $item['name'] === 'Продукція та ціни')
                             ])>{{ $item['name'] }}</a>
                     @endif
                 @endforeach
             </div>
 
             <div class="hidden items-center gap-3 md:flex">
-                <a href="tel:+380503403547"
-                    class="rounded-lg border border-[#cdbb8c] px-4 py-2 text-sm font-semibold text-[#2f2718] transition hover:bg-white">Подзвонити</a>
-                <button onclick="Livewire.dispatch('openOrderForm')" type="button" class="inline-flex w-auto items-center justify-center rounded-lg bg-[#b86f17] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#97580f] focus:outline-hidden focus:ring-2 focus:ring-[#b86f17] focus:ring-offset-2 cursor-pointer">
-                    Замовити
-                </button>
+                <button onclick="Livewire.dispatch(\'openCallbackForm\')" type="button" 
+                    class="rounded-lg border border-[#cdbb8c] px-4 py-2 text-sm font-semibold text-[#2f2718] transition hover:bg-white" cursor-pointer>Подзвонити</button>
+                
             </div>
 
             <details class="relative md:hidden">
@@ -123,12 +121,8 @@
                                 <a href="{{ $item['href'] }}" class="rounded-md px-3 py-2 text-base font-medium text-[#5d5035] hover:bg-[#f3ead3]">{{ $item['name'] }}</a>
                             @endif
                         @endforeach
-                        <a href="tel:+380503403547" class="mt-2 rounded-lg border border-[#cdbb8c] px-4 py-3 text-center font-semibold text-[#2f2718] transition hover:bg-white">+38 050 340 35 47</a>
-                        <div class="mt-1">
-                            <button onclick="Livewire.dispatch('openOrderForm')" type="button" class="w-full inline-flex justify-center rounded-lg bg-[#b86f17] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#97580f] cursor-pointer">
-                                Замовити
-                            </button>
-                        </div>
+                        <button onclick="Livewire.dispatch(\'openCallbackForm\')" type="button"  class="mt-2 rounded-lg border border-[#cdbb8c] px-4 py-3 text-center font-semibold text-[#2f2718] transition hover:bg-white" cursor-pointer>Замовити дзвінок</button>
+                        
                     </div>
                 </div>
             </details>
@@ -148,125 +142,422 @@
                 </div>
             </div>
         </section>
-
+                
         <!-- Product Catalog Section -->
         <section class="py-12 sm:py-16">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 
-                <!-- Category Tabs (AlpineJS) -->
-                <div class="mb-10 flex flex-wrap justify-center gap-2 border-b border-[#e2d4ad] pb-6">
-                    <button @click="activeTab = 'all'" :class="activeTab === 'all' ? 'bg-[#b86f17] text-white' : 'bg-white text-[#6d6045] hover:bg-[#f3ead3]'" class="rounded-xl px-5 py-2.5 text-sm font-bold shadow-xs transition duration-200 cursor-pointer">
-                        Всі товари
-                    </button>
-                    <button @click="activeTab = '8-frame'" :class="activeTab === '8-frame' ? 'bg-[#b86f17] text-white' : 'bg-white text-[#6d6045] hover:bg-[#f3ead3]'" class="rounded-xl px-5 py-2.5 text-sm font-bold shadow-xs transition duration-200 cursor-pointer">
-                        8-рамкові вулики
-                    </button>
-                    <button @click="activeTab = '10-frame'" :class="activeTab === '10-frame' ? 'bg-[#b86f17] text-white' : 'bg-white text-[#6d6045] hover:bg-[#f3ead3]'" class="rounded-xl px-5 py-2.5 text-sm font-bold shadow-xs transition duration-200 cursor-pointer">
-                        10-рамкові вулики
-                    </button>
-                    <button @click="activeTab = '12-frame'" :class="activeTab === '12-frame' ? 'bg-[#b86f17] text-white' : 'bg-white text-[#6d6045] hover:bg-[#f3ead3]'" class="rounded-xl px-5 py-2.5 text-sm font-bold shadow-xs transition duration-200 cursor-pointer">
-                        12-рамкові вулики
-                    </button>
-                    <button @click="activeTab = 'components'" :class="activeTab === 'components' ? 'bg-[#b86f17] text-white' : 'bg-white text-[#6d6045] hover:bg-[#f3ead3]'" class="rounded-xl px-5 py-2.5 text-sm font-bold shadow-xs transition duration-200 cursor-pointer">
-                        Комплектуючі
-                    </button>
+                <!-- Фото цін -->
+                <div class="mb-12 flex justify-center">
+                    <img src="{{ asset('images/price/bee8-11-05.png') }}" alt="Таблиця цін на вулики" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
                 </div>
 
-                <!-- Catalog Grid -->
-                <div>
-                    <!-- 1. Hives Configurations -->
-                    @foreach ($hivesCatalog as $frameSize => $group)
-                        <div x-show="activeTab === 'all' || activeTab === '{{ $frameSize }}-frame'" class="mb-16">
-                            <div class="mb-6 flex items-center gap-3">
-                                <div class="flex size-10 items-center justify-center rounded-xl bg-[#b86f17] text-white text-lg font-bold">🐝</div>
-                                <h2 class="font-serif text-2xl font-bold text-[#2f2718] sm:text-3xl">{{ $group['label'] }}</h2>
-                            </div>
+                <!-- Слайдер 8-рамкового вулика -->
+                <div class="mb-16 mx-auto max-w-5xl" x-data="{ 
+                    activeSlide: 0,
+                    showLightbox: false,
+                    lightboxSrc: '',
+                    lightboxTitle: '',
+                    slides: [
+                        { src: '{{ asset('images/8_beelg/8-rama-krisha.jpg') }}', title: 'Дах 8-рамковий' },
+                        { src: '{{ asset('images/8_beelg/kormushka8-1.jpg') }}', title: 'Годівниця 8-рамкова' },
+                        { src: '{{ asset('images/8_beelg/korpus-8-300.jpg') }}', title: 'Корпус 8-рамковий на 300 мм' },
+                        { src: '{{ asset('images/8_beelg/korpus-8-145.jpg') }}', title: 'Корпус 8-рамковий на 145 мм' },
+                        { src: '{{ asset('images/8_beelg/korpus-8.jpg') }}', title: 'Корпус 8-рамковий' },
+                        { src: '{{ asset('images/8_beelg/8-rama-dno-setka-zagr.jpg') }}', title: 'Дно 8-рамкове сітчасте' },
+                        { src: '{{ asset('images/8_beelg/8-rama-dno-letov-zagr.jpg') }}', title: 'Дно 8-рамкове з льотковим загороджувачем' }
+                    ],
+                    next() { this.activeSlide = (this.activeSlide + 1) % this.slides.length },
+                    prev() { this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length },
+                    openLightbox(src, title) {
+                        this.lightboxSrc = src;
+                        this.lightboxTitle = title;
+                        this.showLightbox = true;
+                    },
+                    closeLightbox() {
+                        this.showLightbox = false;
+                    }
+                }">
+                    <div class="text-center mb-6">
+                        <h3 class="font-serif text-2xl font-bold text-[#2f2718]">Деталі 8-рамкового вулика</h3>
+                        <p class="text-sm text-[#766748] mt-1">Ознайомтеся з елементами конструкції нашої продукції (клікніть для збільшення)</p>
+                    </div>
 
-                            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                                @foreach ($group['packages'] as $pkgKey => $package)
-                                    <div class="flex flex-col rounded-2xl border border-[#e2d4ad] bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-[#b86f17]/40 transition duration-300">
-                                        <!-- Decorative honey gold stripe -->
-                                        <div class="h-1.5 bg-[#b86f17]"></div>
-                                        
-                                        <div class="p-6 flex flex-col flex-1 justify-between">
-                                            <div>
-                                                <div class="flex items-start justify-between gap-2 mb-3">
-                                                    <span class="text-xs font-semibold uppercase tracking-wider text-[#b86f17] bg-[#fbf8ef] px-2.5 py-1 rounded-md border border-[#e3d7b6]">
-                                                        Комплектація {{ $pkgKey }}
-                                                    </span>
-                                                    <div class="text-lg font-black text-[#2f2718]">
-                                                        {{ number_format($package['price'], 0, ',', ' ') }} грн
-                                                    </div>
-                                                </div>
-
-                                                <h3 class="font-serif text-xl font-bold text-[#2f2718] mb-4">
-                                                    Вулик на {{ $frameSize }} рамок
-                                                </h3>
-
-                                                <!-- Components list -->
-                                                <div class="space-y-2 mb-6">
-                                                    <div class="text-xs font-bold text-[#766748] uppercase tracking-wider mb-2">Склад комплекту:</div>
-                                                    @foreach ($package['components'] as $pComp)
-                                                        <div class="flex items-center gap-2 text-sm text-[#6d6045]">
-                                                            <span class="text-[#b86f17] font-bold">✓</span>
-                                                            <span>{{ $pComp['name'] }}</span>
-                                                            <span class="ml-auto text-xs font-bold text-[#766748] bg-[#fbf8ef] px-1.5 py-0.5 rounded-sm">{{ $pComp['qty'] }} {{ $pComp['unit'] }}</span>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-
-                                            <div class="pt-4 border-t border-zinc-100 flex flex-col sm:flex-row gap-2">
-                                                <a href="{{ route('calculator') }}?size={{ $frameSize }}&package={{ $pkgKey }}" class="flex-1 text-center rounded-xl border border-[#cdbb8c] bg-white px-4 py-3 text-sm font-semibold text-[#2f2718] transition hover:bg-[#fbf8ef] flex items-center justify-center">
-                                                    🧮 Калькулятор
-                                                </a>
-                                                <button onclick="Livewire.dispatch('addProductToCart', { productName: '{{ $frameSize }} рамок, Комплектація {{ $pkgKey }}' })" type="button" class="flex-1 rounded-xl bg-[#b86f17] px-4 py-3 text-sm font-semibold text-white shadow-xs transition hover:bg-[#97580f] cursor-pointer text-center flex items-center justify-center gap-1.5">
-                                                    🛒 Замовити товар
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endforeach
-
-                    <!-- 2. Components Catalog -->
-                    <div x-show="activeTab === 'all' || activeTab === 'components'" class="mb-16">
-                        <div class="mb-6 flex items-center gap-3">
-                            <div class="flex size-10 items-center justify-center rounded-xl bg-[#b86f17] text-white text-lg font-bold">🛠️</div>
-                            <h2 class="font-serif text-2xl font-bold text-[#2f2718] sm:text-3xl">Окремі комплектуючі та деталі</h2>
-                        </div>
-
-                        <!-- Sub-filtering inside components using nested tabs -->
-                        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            @foreach ($rawComponents as $key => $component)
-                                <div class="flex flex-col rounded-xl border border-[#e2d4ad] bg-white overflow-hidden shadow-xs hover:border-[#b86f17]/40 transition duration-300">
-                                    <div class="p-5 flex flex-col flex-1 justify-between">
-                                        <div>
-                                            <div class="flex items-center justify-between gap-2 mb-3">
-                                                <span class="text-[10px] font-bold uppercase tracking-wider text-[#b86f17] bg-[#fbf8ef] px-2 py-0.5 rounded-md border border-[#e3d7b6]">
-                                                    {{ $component['group'] === 'інше' ? 'додаткове' : $component['group'] . '-рамковий' }}
-                                                </span>
-                                                <div class="text-base font-black text-[#b86f17]">
-                                                    {{ number_format($component['price'], 0, ',', ' ') }} грн
-                                                </div>
-                                            </div>
-                                            <h3 class="font-semibold text-[#2f2718] text-base mb-4 leading-snug">
-                                                {{ $component['name'] }}
-                                            </h3>
-                                        </div>
-                                        
-                                        <div class="pt-3 border-t border-zinc-100 w-full">
-                                            <button onclick="Livewire.dispatch('addProductToCart', { productName: '{{ $component['name'] }} (окрема деталь)' })" type="button" class="w-full rounded-xl bg-[#b86f17] px-4 py-3 text-sm font-semibold text-white shadow-xs transition hover:bg-[#97580f] cursor-pointer text-center flex items-center justify-center gap-1.5">
-                                                🛒 Замовити деталь
-                                            </button>
-                                        </div>
-                                    </div>
+                    <!-- Slider Container -->
+                    <div class="relative overflow-hidden rounded-3xl border border-[#e2d4ad] bg-white shadow-lg p-6">
+                        
+                        <!-- Slides Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-[#fbf8ef] rounded-2xl p-6 min-h-[380px]">
+                            
+                            <!-- Slide 1 (Always Visible) -->
+                            <div class="flex flex-col items-center justify-center p-5 bg-white rounded-2xl border border-[#e2d4ad]/40 shadow-xs transition duration-300 hover:shadow-md hover:scale-102">
+                                <img :src="slides[activeSlide].src" :alt="slides[activeSlide].title" 
+                                     @click="openLightbox(slides[activeSlide].src, slides[activeSlide].title)"
+                                     class="h-44 w-auto object-contain rounded-xl cursor-zoom-in transition duration-300 hover:scale-105">
+                                <div class="mt-4 text-center">
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#f3ead3] text-[#b86f17] text-[10px] font-bold uppercase tracking-wider" x-text="`Елемент ${activeSlide + 1} з ${slides.length}`"></span>
+                                    <h4 class="mt-1.5 font-serif text-base font-bold text-[#2f2718] leading-tight" x-text="slides[activeSlide].title"></h4>
                                 </div>
-                            @endforeach
+                            </div>
+
+                            <!-- Slide 2 (Visible on Desktop only) -->
+                            <div class="hidden md:flex flex-col items-center justify-center p-5 bg-white rounded-2xl border border-[#e2d4ad]/40 shadow-xs transition duration-300 hover:shadow-md hover:scale-102">
+                                <img :src="slides[(activeSlide + 1) % slides.length].src" :alt="slides[(activeSlide + 1) % slides.length].title" 
+                                     @click="openLightbox(slides[(activeSlide + 1) % slides.length].src, slides[(activeSlide + 1) % slides.length].title)"
+                                     class="h-44 w-auto object-contain rounded-xl cursor-zoom-in transition duration-300 hover:scale-105">
+                                <div class="mt-4 text-center">
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#f3ead3] text-[#b86f17] text-[10px] font-bold uppercase tracking-wider" x-text="`Елемент ${((activeSlide + 1) % slides.length) + 1} з ${slides.length}`"></span>
+                                    <h4 class="mt-1.5 font-serif text-base font-bold text-[#2f2718] leading-tight" x-text="slides[(activeSlide + 1) % slides.length].title"></h4>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3 (Visible on Desktop only) -->
+                            <div class="hidden md:flex flex-col items-center justify-center p-5 bg-white rounded-2xl border border-[#e2d4ad]/40 shadow-xs transition duration-300 hover:shadow-md hover:scale-102">
+                                <img :src="slides[(activeSlide + 2) % slides.length].src" :alt="slides[(activeSlide + 2) % slides.length].title" 
+                                     @click="openLightbox(slides[(activeSlide + 2) % slides.length].src, slides[(activeSlide + 2) % slides.length].title)"
+                                     class="h-44 w-auto object-contain rounded-xl cursor-zoom-in transition duration-300 hover:scale-105">
+                                <div class="mt-4 text-center">
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#f3ead3] text-[#b86f17] text-[10px] font-bold uppercase tracking-wider" x-text="`Елемент ${((activeSlide + 2) % slides.length) + 1} з ${slides.length}`"></span>
+                                    <h4 class="mt-1.5 font-serif text-base font-bold text-[#2f2718] leading-tight" x-text="slides[(activeSlide + 2) % slides.length].title"></h4>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Prev / Next Buttons -->
+                        <button @click="prev()" class="absolute left-2 top-1/2 -translate-y-1/2 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#cdbb8c] bg-white text-[#2f2718] shadow-md transition hover:bg-[#fbf8ef] hover:text-[#b86f17] focus:outline-hidden z-10">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button @click="next()" class="absolute right-2 top-1/2 -translate-y-1/2 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#cdbb8c] bg-white text-[#2f2718] shadow-md transition hover:bg-[#fbf8ef] hover:text-[#b86f17] focus:outline-hidden z-10">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Dot Indicators -->
+                    <div class="mt-4 flex justify-center gap-2">
+                        <template x-for="(slide, index) in slides" :key="index">
+                            <button @click="activeSlide = index" 
+                                    :class="activeSlide === index ? 'bg-[#b86f17] w-6' : 'bg-[#d6c59c] hover:bg-[#b86f17]/60 w-2.5'" 
+                                    class="h-2.5 rounded-full transition-all duration-300 cursor-pointer"></button>
+                        </template>
+                    </div>
+
+                    <!-- Lightbox Modal -->
+                    <div x-show="showLightbox" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/85 p-4"
+                         @click="closeLightbox()"
+                         style="display: none;"
+                         @keydown.escape.window="closeLightbox()">
+                        
+                        <div class="relative max-w-5xl w-full flex flex-col items-center justify-center" @click.stop>
+                            <!-- Close Button -->
+                            <button @click="closeLightbox()" class="absolute -top-12 right-0 text-white hover:text-[#cdbb8c] cursor-pointer text-sm font-bold flex items-center gap-1">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                Закрити
+                            </button>
+
+                            <!-- Image -->
+                            <img :src="lightboxSrc" :alt="lightboxTitle" class="max-h-[80vh] max-w-full rounded-2xl border border-white/10 shadow-2xl object-contain bg-[#fbf8ef] p-2">
+                            
+                            <!-- Title -->
+                            <h4 class="mt-4 text-center font-serif text-xl font-bold text-white" x-text="lightboxTitle"></h4>
                         </div>
                     </div>
+                </div>
+
+                <!-- Кнопка переходу до калькулятора -->
+                <div class="mt-8 flex justify-center">
+                    <a href="{{ route('calculator') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#b86f17] px-6 py-3.5 text-sm font-bold text-white shadow-md hover:bg-[#97580f] transition">
+                        <span>🧮 Перейти до калькулятора та обрати свій набір для вулика</span>
+                    </a>
+                </div>
+
+                <!-- Фото цін 10 рамок -->
+                <div class="mt-12 flex justify-center">
+                    <img src="{{ asset('images/price/bee10-11-05.png') }}" alt="Таблиця цін на вулики" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
+                </div>
+
+                <!-- Фото цін 12 рамок -->
+                <div class="mt-12 flex justify-center">
+                    <img src="{{ asset('images/price/bee12-11-05.png') }}" alt="Таблиця цін на вулики" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
+                </div>
+
+                <!-- Слайдер 10/12-рамкового вулика -->
+                <div class="mt-16 mx-auto max-w-5xl" x-data="{ 
+                    activeSlide: 0,
+                    showLightbox: false,
+                    lightboxSrc: '',
+                    lightboxTitle: '',
+                    slides: [
+                        { src: '{{ asset('images/10_12_bee/dsc_3803-krisha.jpg') }}', title: 'Дах 10/12-рамковий' },
+                        { src: '{{ asset('images/10_12_bee/kormushka-1.jpg') }}', title: 'Годівниця 10-рамкова' },
+                        { src: '{{ asset('images/10_12_bee/kormushka-2.jpg') }}', title: 'Годівниця 12-рамкова' },
+                        { src: '{{ asset('images/10_12_bee/korpusdsc_5995.jpg') }}', title: 'Корпус на 300 мм' },
+                        { src: '{{ asset('images/10_12_bee/k145sc_5989.jpg') }}', title: 'Корпус на 145 мм' },
+                        { src: '{{ asset('images/10_12_bee/setka_dno.jpg') }}', title: 'Дно сітчасте з сіткою' },
+                        { src: '{{ asset('images/10_12_bee/2-letov-zagr.jpg') }}', title: 'Льотковий загороджувач' },
+                        { src: '{{ asset('images/10_12_bee/vstavka-12-bee.lg_.ua_.jpg') }}', title: 'Вставка-перегородка для 12-рамкового вулика' }
+                    ],
+                    next() { this.activeSlide = (this.activeSlide + 1) % this.slides.length },
+                    prev() { this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length },
+                    openLightbox(src, title) {
+                        this.lightboxSrc = src;
+                        this.lightboxTitle = title;
+                        this.showLightbox = true;
+                    },
+                    closeLightbox() {
+                        this.showLightbox = false;
+                    }
+                }">
+                    <div class="text-center mb-6">
+                        <h3 class="font-serif text-2xl font-bold text-[#2f2718]">Деталі 10/12-рамкового вулика</h3>
+                        <p class="text-sm text-[#766748] mt-1">Ознайомтеся з елементами конструкції нашої продукції (клікніть для збільшення)</p>
+                    </div>
+
+                    <!-- Slider Container -->
+                    <div class="relative overflow-hidden rounded-3xl border border-[#e2d4ad] bg-white shadow-lg p-6">
+                        
+                        <!-- Slides Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-[#fbf8ef] rounded-2xl p-6 min-h-[380px]">
+                            
+                            <!-- Slide 1 (Always Visible) -->
+                            <div class="flex flex-col items-center justify-center p-5 bg-white rounded-2xl border border-[#e2d4ad]/40 shadow-xs transition duration-300 hover:shadow-md hover:scale-102">
+                                <img :src="slides[activeSlide].src" :alt="slides[activeSlide].title" 
+                                     @click="openLightbox(slides[activeSlide].src, slides[activeSlide].title)"
+                                     class="h-44 w-auto object-contain rounded-xl cursor-zoom-in transition duration-300 hover:scale-105">
+                                <div class="mt-4 text-center">
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#f3ead3] text-[#b86f17] text-[10px] font-bold uppercase tracking-wider" x-text="`Елемент ${activeSlide + 1} з ${slides.length}`"></span>
+                                    <h4 class="mt-1.5 font-serif text-base font-bold text-[#2f2718] leading-tight" x-text="slides[activeSlide].title"></h4>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2 (Visible on Desktop only) -->
+                            <div class="hidden md:flex flex-col items-center justify-center p-5 bg-white rounded-2xl border border-[#e2d4ad]/40 shadow-xs transition duration-300 hover:shadow-md hover:scale-102">
+                                <img :src="slides[(activeSlide + 1) % slides.length].src" :alt="slides[(activeSlide + 1) % slides.length].title" 
+                                     @click="openLightbox(slides[(activeSlide + 1) % slides.length].src, slides[(activeSlide + 1) % slides.length].title)"
+                                     class="h-44 w-auto object-contain rounded-xl cursor-zoom-in transition duration-300 hover:scale-105">
+                                <div class="mt-4 text-center">
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#f3ead3] text-[#b86f17] text-[10px] font-bold uppercase tracking-wider" x-text="`Елемент ${((activeSlide + 1) % slides.length) + 1} з ${slides.length}`"></span>
+                                    <h4 class="mt-1.5 font-serif text-base font-bold text-[#2f2718] leading-tight" x-text="slides[(activeSlide + 1) % slides.length].title"></h4>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3 (Visible on Desktop only) -->
+                            <div class="hidden md:flex flex-col items-center justify-center p-5 bg-white rounded-2xl border border-[#e2d4ad]/40 shadow-xs transition duration-300 hover:shadow-md hover:scale-102">
+                                <img :src="slides[(activeSlide + 2) % slides.length].src" :alt="slides[(activeSlide + 2) % slides.length].title" 
+                                     @click="openLightbox(slides[(activeSlide + 2) % slides.length].src, slides[(activeSlide + 2) % slides.length].title)"
+                                     class="h-44 w-auto object-contain rounded-xl cursor-zoom-in transition duration-300 hover:scale-105">
+                                <div class="mt-4 text-center">
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#f3ead3] text-[#b86f17] text-[10px] font-bold uppercase tracking-wider" x-text="`Елемент ${((activeSlide + 2) % slides.length) + 1} з ${slides.length}`"></span>
+                                    <h4 class="mt-1.5 font-serif text-base font-bold text-[#2f2718] leading-tight" x-text="slides[(activeSlide + 2) % slides.length].title"></h4>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Prev / Next Buttons -->
+                        <button @click="prev()" class="absolute left-2 top-1/2 -translate-y-1/2 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#cdbb8c] bg-white text-[#2f2718] shadow-md transition hover:bg-[#fbf8ef] hover:text-[#b86f17] focus:outline-hidden z-10">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button @click="next()" class="absolute right-2 top-1/2 -translate-y-1/2 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#cdbb8c] bg-white text-[#2f2718] shadow-md transition hover:bg-[#fbf8ef] hover:text-[#b86f17] focus:outline-hidden z-10">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Dot Indicators -->
+                    <div class="mt-4 flex justify-center gap-2">
+                        <template x-for="(slide, index) in slides" :key="index">
+                            <button @click="activeSlide = index" 
+                                    :class="activeSlide === index ? 'bg-[#b86f17] w-6' : 'bg-[#d6c59c] hover:bg-[#b86f17]/60 w-2.5'" 
+                                    class="h-2.5 rounded-full transition-all duration-300 cursor-pointer"></button>
+                        </template>
+                    </div>
+
+                    <!-- Lightbox Modal -->
+                    <div x-show="showLightbox" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/85 p-4"
+                         @click="closeLightbox()"
+                         style="display: none;"
+                         @keydown.escape.window="closeLightbox()">
+                        
+                        <div class="relative max-w-5xl w-full flex flex-col items-center justify-center" @click.stop>
+                            <!-- Close Button -->
+                            <button @click="closeLightbox()" class="absolute -top-12 right-0 text-white hover:text-[#cdbb8c] cursor-pointer text-sm font-bold flex items-center gap-1">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                Закрити
+                            </button>
+
+                            <!-- Image -->
+                            <img :src="lightboxSrc" :alt="lightboxTitle" class="max-h-[80vh] max-w-full rounded-2xl border border-white/10 shadow-2xl object-contain bg-[#fbf8ef] p-2">
+                            
+                            <!-- Title -->
+                            <h4 class="mt-4 text-center font-serif text-xl font-bold text-white" x-text="lightboxTitle"></h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кнопка переходу до калькулятора -->
+                <div class="mt-8 flex justify-center">
+                    <a href="{{ route('calculator') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#b86f17] px-6 py-3.5 text-sm font-bold text-white shadow-md hover:bg-[#97580f] transition">
+                        <span>🧮 Перейти до калькулятора та обрати свій набір для вулика</span>
+                    </a>
+                </div>
+
+                <!-- Фото цін інші комплектуючі -->
+                <div class="mt-16 flex justify-center">
+                    <img src="{{ asset('images/price/bee-other-11-05.png') }}" alt="Таблиця цін на інші комплектуючі" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
+                </div>
+
+                <!-- Слайдер інших комплектуючих -->
+                <div class="mt-16 mx-auto max-w-5xl" x-data="{ 
+                    activeSlide: 0,
+                    showLightbox: false,
+                    lightboxSrc: '',
+                    lightboxTitle: '',
+                    slides: [
+                        { src: '{{ asset('images/inshi/mikronukleus.jpg') }}', title: 'Мікронуклеус' },
+                        { src: '{{ asset('images/inshi/vstavnaya-doska-230.jpg') }}', title: 'Заставна дошка на 230 мм' },
+                        { src: '{{ asset('images/inshi/dvavstavnaya-doska-300.jpg') }}', title: 'Заставна дошка на 300 мм' }
+                    ],
+                    next() { this.activeSlide = (this.activeSlide + 1) % this.slides.length },
+                    prev() { this.activeSlide = (this.activeSlide - 1 + this.slides.length) % this.slides.length },
+                    openLightbox(src, title) {
+                        this.lightboxSrc = src;
+                        this.lightboxTitle = title;
+                        this.showLightbox = true;
+                    },
+                    closeLightbox() {
+                        this.showLightbox = false;
+                    }
+                }">
+                    <div class="text-center mb-6">
+                        <h3 class="font-serif text-2xl font-bold text-[#2f2718]">Інші комплектуючі</h3>
+                        <p class="text-sm text-[#766748] mt-1">Ознайомтеся з додатковими елементами нашої продукції (клікніть для збільшення)</p>
+                    </div>
+
+                    <!-- Slider Container -->
+                    <div class="relative overflow-hidden rounded-3xl border border-[#e2d4ad] bg-white shadow-lg p-6">
+                        
+                        <!-- Slides Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 bg-[#fbf8ef] rounded-2xl p-6 min-h-[380px]">
+                            
+                            <!-- Slide 1 (Always Visible) -->
+                            <div class="flex flex-col items-center justify-center p-5 bg-white rounded-2xl border border-[#e2d4ad]/40 shadow-xs transition duration-300 hover:shadow-md hover:scale-102">
+                                <img :src="slides[activeSlide].src" :alt="slides[activeSlide].title" 
+                                     @click="openLightbox(slides[activeSlide].src, slides[activeSlide].title)"
+                                     class="h-44 w-auto object-contain rounded-xl cursor-zoom-in transition duration-300 hover:scale-105">
+                                <div class="mt-4 text-center">
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#f3ead3] text-[#b86f17] text-[10px] font-bold uppercase tracking-wider" x-text="`Елемент ${activeSlide + 1} з ${slides.length}`"></span>
+                                    <h4 class="mt-1.5 font-serif text-base font-bold text-[#2f2718] leading-tight" x-text="slides[activeSlide].title"></h4>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2 (Visible on Desktop only) -->
+                            <div class="hidden md:flex flex-col items-center justify-center p-5 bg-white rounded-2xl border border-[#e2d4ad]/40 shadow-xs transition duration-300 hover:shadow-md hover:scale-102">
+                                <img :src="slides[(activeSlide + 1) % slides.length].src" :alt="slides[(activeSlide + 1) % slides.length].title" 
+                                     @click="openLightbox(slides[(activeSlide + 1) % slides.length].src, slides[(activeSlide + 1) % slides.length].title)"
+                                     class="h-44 w-auto object-contain rounded-xl cursor-zoom-in transition duration-300 hover:scale-105">
+                                <div class="mt-4 text-center">
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#f3ead3] text-[#b86f17] text-[10px] font-bold uppercase tracking-wider" x-text="`Елемент ${((activeSlide + 1) % slides.length) + 1} з ${slides.length}`"></span>
+                                    <h4 class="mt-1.5 font-serif text-base font-bold text-[#2f2718] leading-tight" x-text="slides[(activeSlide + 1) % slides.length].title"></h4>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3 (Visible on Desktop only) -->
+                            <div class="hidden md:flex flex-col items-center justify-center p-5 bg-white rounded-2xl border border-[#e2d4ad]/40 shadow-xs transition duration-300 hover:shadow-md hover:scale-102">
+                                <img :src="slides[(activeSlide + 2) % slides.length].src" :alt="slides[(activeSlide + 2) % slides.length].title" 
+                                     @click="openLightbox(slides[(activeSlide + 2) % slides.length].src, slides[(activeSlide + 2) % slides.length].title)"
+                                     class="h-44 w-auto object-contain rounded-xl cursor-zoom-in transition duration-300 hover:scale-105">
+                                <div class="mt-4 text-center">
+                                    <span class="inline-block px-2.5 py-0.5 rounded-full bg-[#f3ead3] text-[#b86f17] text-[10px] font-bold uppercase tracking-wider" x-text="`Елемент ${((activeSlide + 2) % slides.length) + 1} з ${slides.length}`"></span>
+                                    <h4 class="mt-1.5 font-serif text-base font-bold text-[#2f2718] leading-tight" x-text="slides[(activeSlide + 2) % slides.length].title"></h4>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Prev / Next Buttons -->
+                        <button @click="prev()" class="absolute left-2 top-1/2 -translate-y-1/2 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#cdbb8c] bg-white text-[#2f2718] shadow-md transition hover:bg-[#fbf8ef] hover:text-[#b86f17] focus:outline-hidden z-10">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button @click="next()" class="absolute right-2 top-1/2 -translate-y-1/2 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-[#cdbb8c] bg-white text-[#2f2718] shadow-md transition hover:bg-[#fbf8ef] hover:text-[#b86f17] focus:outline-hidden z-10">
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Dot Indicators -->
+                    <div class="mt-4 flex justify-center gap-2">
+                        <template x-for="(slide, index) in slides" :key="index">
+                            <button @click="activeSlide = index" 
+                                    :class="activeSlide === index ? 'bg-[#b86f17] w-6' : 'bg-[#d6c59c] hover:bg-[#b86f17]/60 w-2.5'" 
+                                    class="h-2.5 rounded-full transition-all duration-300 cursor-pointer"></button>
+                        </template>
+                    </div>
+
+                    <!-- Lightbox Modal -->
+                    <div x-show="showLightbox" 
+                         x-transition:enter="transition ease-out duration-300"
+                         x-transition:enter-start="opacity-0"
+                         x-transition:enter-end="opacity-100"
+                         x-transition:leave="transition ease-in duration-200"
+                         x-transition:leave-start="opacity-100"
+                         x-transition:leave-end="opacity-0"
+                         class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/85 p-4"
+                         @click="closeLightbox()"
+                         style="display: none;"
+                         @keydown.escape.window="closeLightbox()">
+                        
+                        <div class="relative max-w-5xl w-full flex flex-col items-center justify-center" @click.stop>
+                            <!-- Close Button -->
+                            <button @click="closeLightbox()" class="absolute -top-12 right-0 text-white hover:text-[#cdbb8c] cursor-pointer text-sm font-bold flex items-center gap-1">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                                Закрити
+                            </button>
+
+                            <!-- Image -->
+                            <img :src="lightboxSrc" :alt="lightboxTitle" class="max-h-[80vh] max-w-full rounded-2xl border border-white/10 shadow-2xl object-contain bg-[#fbf8ef] p-2">
+                            
+                            <!-- Title -->
+                            <h4 class="mt-4 text-center font-serif text-xl font-bold text-white" x-text="lightboxTitle"></h4>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кнопка переходу до калькулятора -->
+                <div class="mt-8 flex justify-center">
+                    <a href="{{ route('calculator') }}" class="inline-flex items-center gap-2 rounded-xl bg-[#b86f17] px-6 py-3.5 text-sm font-bold text-white shadow-md hover:bg-[#97580f] transition">
+                        <span>🧮 Перейти до калькулятора та обрати свій набір для вулика</span>
+                    </a>
                 </div>
             </div>
         </section>
@@ -274,9 +565,8 @@
 
     @include('partials.footer')
 
-    <livewire:order-form />
-
-    @fluxScripts
+            <livewire:callback-form />
+        @fluxScripts
 </body>
 
 </html>

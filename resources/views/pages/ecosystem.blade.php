@@ -9,7 +9,7 @@
         @php
             $navigation = [
                 ['name' => 'Головна', 'href' => route('home')],
-                ['name' => 'Каталог', 'href' => route('catalog')],
+                ['name' => 'Продукція та ціни', 'href' => route('catalog')],
                 ['name' => 'Відеоматеріали', 'href' => route('video')],
                 ['name' => 'Калькулятор', 'href' => route('calculator')],
                 ['name' => 'Екосистема', 'href' => route('ecosystem')],
@@ -71,10 +71,8 @@
                 </div>
 
                 <div class="hidden items-center gap-3 md:flex" id="desktop-nav-actions">
-                    <a href="tel:+380503403547" class="rounded-lg border border-[#cdbb8c] px-4 py-2 text-sm font-semibold text-[#2f2718] transition hover:bg-white" id="nav-call-btn">Подзвонити</a>
-                    <button onclick="Livewire.dispatch('openOrderForm')" type="button" class="inline-flex w-auto items-center justify-center rounded-lg bg-[#b86f17] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#97580f] focus:outline-hidden focus:ring-2 focus:ring-[#b86f17] focus:ring-offset-2 cursor-pointer" id="nav-order-btn">
-                        Замовити
-                    </button>
+                    <button onclick="Livewire.dispatch(\'openCallbackForm\')" type="button"  class="rounded-lg border border-[#cdbb8c] px-4 py-2 text-sm font-semibold text-[#2f2718] transition hover:bg-white" id="nav-call-btn" cursor-pointer>Подзвонити</button>
+                    
                 </div>
 
                 <details class="relative md:hidden" id="mobile-nav-details">
@@ -105,12 +103,8 @@
                                     <a href="{{ $item['href'] }}" class="rounded-md px-3 py-2 text-base font-medium text-[#5d5035] hover:bg-[#f3ead3]">{{ $item['name'] }}</a>
                                 @endif
                             @endforeach
-                            <a href="tel:+380503403547" class="mt-2 rounded-lg border border-[#cdbb8c] px-4 py-3 text-center font-semibold text-[#2f2718] transition hover:bg-white">+38 050 340 35 47</a>
-                            <div class="mt-1">
-                                <button onclick="Livewire.dispatch('openOrderForm')" type="button" class="w-full inline-flex justify-center rounded-lg bg-[#b86f17] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#97580f] cursor-pointer">
-                                    Замовити
-                                </button>
-                            </div>
+                            <button onclick="Livewire.dispatch(\'openCallbackForm\')" type="button"  class="mt-2 rounded-lg border border-[#cdbb8c] px-4 py-3 text-center font-semibold text-[#2f2718] transition hover:bg-white" cursor-pointer>Замовити дзвінок</button>
+                            
                         </div>
                     </div>
                 </details>
@@ -218,15 +212,14 @@
                     </p>
                     <div class="mt-8 flex flex-wrap justify-center gap-4">
                         <a href="{{ route('calculator') }}" class="rounded-xl bg-[#b86f17] px-6 py-3 font-bold text-white shadow-xs hover:bg-[#97580f] transition cursor-pointer" id="cta-calculator-btn">Перейти до калькулятора</a>
-                        <button onclick="Livewire.dispatch('openOrderForm')" type="button" class="rounded-xl border border-[#cdbb8c] px-6 py-3 font-bold text-[#2f2718] hover:bg-[#fbf8ef] transition cursor-pointer" id="cta-order-btn">Оформити замовлення</button>
+                        <button onclick="Livewire.dispatch('openCallbackForm')" type="button" class="rounded-xl border border-[#cdbb8c] px-6 py-3 font-bold text-[#2f2718] hover:bg-[#fbf8ef] transition cursor-pointer" id="cta-order-btn">Замовити дзвінок</button>
                     </div>
                 </div>
             </section>
         </main>
 
         @include('partials.footer')
-
-        <livewire:order-form />
+                <livewire:callback-form />
         @fluxScripts
     </body>
 </html>

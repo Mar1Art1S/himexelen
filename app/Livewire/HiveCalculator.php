@@ -13,7 +13,7 @@ class HiveCalculator extends Component
 {
     public string $frameSize = '10';
 
-    public string $packageKey = '2';
+    public string $packageKey = '';
 
     public int $quantity = 1;
 
@@ -38,9 +38,28 @@ class HiveCalculator extends Component
      */
     public array $items = [];
 
+    /**
+     * @var array<string, int>
+     */
+    public array $quantities = [];
+
     public function mount(): void
     {
-        $this->mode = app()->runningUnitTests() ? 'beginner' : 'expert';
+        $this->mode = 'beginner';
+
+        $size = request()->query('size');
+        $package = request()->query('package');
+
+        if ($size && in_array($size, ['8', '10', '12'])) {
+            $this->frameSize = $size;
+        }
+
+        if ($package) {
+            $this->packageKey = $package;
+        } else {
+            $this->packageKey = ''; // Не вибрано за замовчуванням
+        }
+
         $this->componentKey = array_key_first($this->components()) ?? '';
     }
 
@@ -60,7 +79,7 @@ class HiveCalculator extends Component
 
     public function updatedFrameSize(): void
     {
-        $this->packageKey = '1';
+        $this->packageKey = '';
         $this->componentKey = array_key_first($this->components()) ?? $this->componentKey;
     }
 
@@ -69,6 +88,48 @@ class HiveCalculator extends Component
         $this->clear();
         $this->packageKey = $packageKey;
         $this->loadPackageIntoConstructor();
+    }
+
+    public function selectPackage(string $key): void
+    {
+        $this->packageKey = $key;
+        $this->quantity = 1;
+    }
+
+    public function updatedQuantity(int $value): void
+    {
+        if ($value < 1) {
+            $this->quantity = 1;
+        }
+    }
+
+    public function incrementItem(int $index): void
+    {
+        if (isset($this->items[$index])) {
+            $this->items[$index]['quantity']++;
+        }
+    }
+
+    public function decrementItem(int $index): void
+    {
+        if (isset($this->items[$index])) {
+            if ($this->items[$index]['quantity'] > 1) {
+                $this->items[$index]['quantity']--;
+            } else {
+                $this->removeItem($index);
+            }
+        }
+    }
+
+    public function getPackageQuantityInCart(string $key): int
+    {
+        foreach ($this->items as $item) {
+            if ($item['type'] === 'package' && $item['frameSize'] === $this->frameSize && $item['packageKey'] === $key) {
+                return $item['quantity'];
+            }
+        }
+
+        return 0;
     }
 
     /**
@@ -127,10 +188,20 @@ class HiveCalculator extends Component
     /**
      * Unpack package components into individual items in the constructor.
      */
-    public function loadPackageIntoConstructor(): void
+    public function loadPackageIntoConstructor(string $key = ''): void
     {
-        $package = $this->selectedPackage();
-        $qty = $this->quantity;
+        if ($key === '') {
+            $key = $this->packageKey;
+            $qty = $this->quantity;
+        } else {
+            $this->packageKey = $key;
+            $qty = $this->quantities[$key] ?? 1;
+        }
+
+        $package = $this->packages()[$key] ?? null;
+        if (! $package) {
+            return;
+        }
 
         foreach ($package['components'] as $pComp) {
             $matchedKey = $this->findMatchingComponentKey($pComp['name']);
@@ -138,10 +209,10 @@ class HiveCalculator extends Component
             // Fallback: match globally across all groups if not found in current group
             if (! $matchedKey) {
                 $pNorm = $this->normalizeName($pComp['name']);
-                foreach (self::componentsCatalog() as $key => $catalogComp) {
+                foreach (self::componentsCatalog() as $cKey => $catalogComp) {
                     $cNorm = $this->normalizeName($catalogComp['name']);
                     if (str_contains($cNorm, $pNorm) || str_contains($pNorm, $cNorm)) {
-                        $matchedKey = $key;
+                        $matchedKey = $cKey;
                         break;
                     }
                 }
@@ -151,6 +222,10 @@ class HiveCalculator extends Component
                 $compQty = ((int) $pComp['qty']) * $qty;
                 $this->setComponentQuantity($matchedKey, $this->getItemQuantity($matchedKey) + $compQty);
             }
+        }
+
+        if ($key !== '') {
+            $this->quantities[$key] = 1;
         }
 
         // Switch mode to expert (Constructor)
@@ -172,23 +247,81 @@ class HiveCalculator extends Component
 
         $package = $this->selectedPackage();
 
+        $found = false;
         foreach ($this->items as $index => $item) {
             if ($item['type'] === 'package' && $item['frameSize'] === $this->frameSize && $item['packageKey'] === $this->packageKey) {
                 $this->items[$index]['quantity'] += $this->quantity;
-
-                return;
+                $found = true;
+                break;
             }
         }
 
-        $this->items[] = [
-            'type' => 'package',
-            'frameSize' => $this->frameSize,
-            'packageKey' => $this->packageKey,
-            'name' => $this->frameSize.' рамок, '.$package['name'],
-            'description' => $package['description'],
-            'price' => $package['price'],
-            'quantity' => $this->quantity,
-        ];
+        if (! $found) {
+            $this->items[] = [
+                'type' => 'package',
+                'frameSize' => $this->frameSize,
+                'packageKey' => $this->packageKey,
+                'name' => $this->frameSize.' рамок, '.$package['name'],
+                'description' => $package['description'],
+                'price' => $package['price'],
+                'quantity' => $this->quantity,
+            ];
+        }
+
+        $this->quantity = 1;
+    }
+
+    public function getQuantity(string $key): int
+    {
+        return $this->quantities[$key] ?? 1;
+    }
+
+    public function incrementQuantity(string $key): void
+    {
+        $current = $this->quantities[$key] ?? 1;
+        $this->quantities[$key] = $current + 1;
+    }
+
+    public function decrementQuantity(string $key): void
+    {
+        $current = $this->quantities[$key] ?? 1;
+        if ($current > 1) {
+            $this->quantities[$key] = $current - 1;
+        }
+    }
+
+    public function addPackage(string $key): void
+    {
+        $this->packageKey = $key;
+        $qty = $this->quantities[$key] ?? 1;
+        $package = $this->packages()[$key] ?? null;
+
+        if (! $package) {
+            return;
+        }
+
+        $found = false;
+        foreach ($this->items as $index => $item) {
+            if ($item['type'] === 'package' && $item['frameSize'] === $this->frameSize && $item['packageKey'] === $key) {
+                $this->items[$index]['quantity'] += $qty;
+                $found = true;
+                break;
+            }
+        }
+
+        if (! $found) {
+            $this->items[] = [
+                'type' => 'package',
+                'frameSize' => $this->frameSize,
+                'packageKey' => $key,
+                'name' => $this->frameSize.' рамок, '.$package['name'],
+                'description' => $package['description'],
+                'price' => $package['price'],
+                'quantity' => $qty,
+            ];
+        }
+
+        $this->quantities[$key] = 1;
     }
 
     public function addComponent(): void
@@ -221,9 +354,15 @@ class HiveCalculator extends Component
 
     public function removeItem(int $index): void
     {
+        $removedItem = $this->items[$index] ?? null;
         unset($this->items[$index]);
 
         $this->items = array_values($this->items);
+
+        if ($removedItem && $removedItem['type'] === 'package' && $removedItem['frameSize'] === $this->frameSize && $removedItem['packageKey'] === $this->packageKey) {
+            $this->packageKey = '';
+            $this->quantity = 1;
+        }
     }
 
     public function getItemQuantity(string $key): int
@@ -313,6 +452,8 @@ class HiveCalculator extends Component
     public function clear(): void
     {
         $this->items = [];
+        $this->packageKey = '';
+        $this->quantity = 1;
     }
 
     /**
@@ -412,9 +553,86 @@ class HiveCalculator extends Component
         return $this->subtotal() - $this->discountAmount() + $this->packagingAmount();
     }
 
+    /**
+     * Preview subtotal that works even when items are empty (beginner mode).
+     * Uses selected package × quantity as fallback.
+     */
+    public function previewSubtotal(): int
+    {
+        if (! empty($this->items)) {
+            return $this->subtotal();
+        }
+
+        return ($this->selectedPackage()['price'] ?? 0) * $this->quantity;
+    }
+
+    /**
+     * Preview discount rate based on preview subtotal.
+     */
+    public function previewDiscountRate(): int
+    {
+        if (! empty($this->items)) {
+            return $this->discountRate();
+        }
+
+        $subtotal = $this->previewSubtotal();
+
+        return match (true) {
+            $subtotal >= 120000 => 10,
+            $subtotal >= 90000 => 8,
+            $subtotal >= 70000 => 7,
+            $subtotal >= 50000 => 6,
+            $subtotal >= 30000 => 5,
+            default => 0,
+        };
+    }
+
+    /**
+     * Preview discount amount.
+     */
+    public function previewDiscountAmount(): int
+    {
+        if (! empty($this->items)) {
+            return $this->discountAmount();
+        }
+
+        return (int) round($this->previewSubtotal() * $this->previewDiscountRate() / 100);
+    }
+
+    /**
+     * Preview packaging amount.
+     */
+    public function previewPackaging(): int
+    {
+        if (! empty($this->items)) {
+            return $this->packagingAmount();
+        }
+
+        return $this->includePackaging ? ($this->quantity * 70) : 0;
+    }
+
+    /**
+     * Preview total.
+     */
+    public function previewTotal(): int
+    {
+        if (! empty($this->items)) {
+            return $this->total();
+        }
+
+        return $this->previewSubtotal() - $this->previewDiscountAmount() + $this->previewPackaging();
+    }
+
     public function render(): View
     {
-        return view('livewire.hive-calculator');
+        return view('livewire.hive-calculator', [
+            'pvSubtotal' => $this->previewSubtotal(),
+            'pvDiscountRate' => $this->previewDiscountRate(),
+            'pvDiscountAmount' => $this->previewDiscountAmount(),
+            'pvPackaging' => $this->previewPackaging(),
+            'pvTotal' => $this->previewTotal(),
+            'pkgName' => $this->selectedPackage()['name'] ?? '',
+        ]);
     }
 
     public function sendCalculation(): void
