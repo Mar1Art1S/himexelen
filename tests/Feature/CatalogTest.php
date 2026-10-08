@@ -17,6 +17,16 @@ test('catalog page renders successfully', function () {
         ->assertSee('Продукція та ціни');
 });
 
+test('catalog page uses the current price images', function () {
+    $this->get(route('catalog'))
+        ->assertSuccessful()
+        ->assertSee('/images/pricenew/bee-8new.png')
+        ->assertSee('/images/pricenew/bee-10new.png')
+        ->assertSee('/images/pricenew/bee-12new.png')
+        ->assertSee('/images/pricenew/bee-othernew.png')
+        ->assertDontSee('/images/price/');
+});
+
 test('public pages have catalog link in header navigation', function () {
     $this->get(route('home'))->assertSee('Продукція та ціни');
     $this->followingRedirects()->get(route('sizes'))->assertSee('Продукція та ціни');

@@ -158,7 +158,7 @@
                 
                 <!-- Фото цін -->
                 <div class="mb-12 flex justify-center">
-                    <img src="{{ asset('images/price/bee8-11-05.png') }}" alt="Таблиця цін на вулики" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
+                    <img src="{{ asset('images/pricenew/bee-8new.png') }}" alt="Таблиця цін на вулики" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
                 </div>
 
                 <!-- Слайдер 8-рамкового вулика -->
@@ -295,12 +295,12 @@
 
                 <!-- Фото цін 10 рамок -->
                 <div class="mt-12 flex justify-center">
-                    <img src="{{ asset('images/price/bee10-11-05.png') }}" alt="Таблиця цін на вулики" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
+                    <img src="{{ asset('images/pricenew/bee-10new.png') }}" alt="Таблиця цін на вулики" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
                 </div>
 
                 <!-- Фото цін 12 рамок -->
                 <div class="mt-12 flex justify-center">
-                    <img src="{{ asset('images/price/bee12-11-05.png') }}" alt="Таблиця цін на вулики" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
+                    <img src="{{ asset('images/pricenew/bee-12new.png') }}" alt="Таблиця цін на вулики" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
                 </div>
 
                 <!-- Слайдер 10/12-рамкового вулика -->
@@ -438,7 +438,7 @@
 
                 <!-- Фото цін інші комплектуючі -->
                 <div class="mt-16 flex justify-center">
-                    <img src="{{ asset('images/price/bee-other-11-05.png') }}" alt="Таблиця цін на інші комплектуючі" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
+                    <img src="{{ asset('images/pricenew/bee-othernew.png') }}" alt="Таблиця цін на інші комплектуючі" class="max-w-full md:max-w-4xl h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
                 </div>
 
                 <!-- Слайдер інших комплектуючих -->
