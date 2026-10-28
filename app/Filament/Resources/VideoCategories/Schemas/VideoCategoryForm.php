@@ -29,7 +29,8 @@ class VideoCategoryForm
                 Select::make('type')
                     ->label('Тип відео')
                     ->options([
-                        'general' => 'Вкладка "Відео" (Загальні огляди)',
+                        'general' => 'Вкладка "Відео огляди" (Загальні огляди)',
+                        'videos' => 'Вкладка "ВІДЕО"',
                         'assembly' => 'Вкладка "Інструкція" (Відео збірки)',
                     ])
                     ->default('assembly')

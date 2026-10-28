@@ -30,11 +30,13 @@ class VideoCategoriesTable
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'general' => 'success',
+                        'videos' => 'info',
                         'assembly' => 'warning',
                         default => 'gray',
                     })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'general' => 'Загальні огляди',
+                        'videos' => 'ВІДЕО',
                         'assembly' => 'Відео збірки',
                         default => $state,
                     })
