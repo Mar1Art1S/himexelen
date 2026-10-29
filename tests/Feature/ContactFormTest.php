@@ -16,15 +16,21 @@ test('public home page renders the contact form component', function () {
 });
 
 test('home page contacts section shows the current phone labels and numbers', function () {
-    $this->get(route('home'))
+    $response = $this->get(route('home'))
         ->assertOk()
         ->assertSee('Євгенія — замовлення')
         ->assertSee('Олена — Рахунки відправлення')
-        ->assertSee('+38 066 677 35 47')
-        ->assertSee('tel:+380666773547', false)
         ->assertDontSee('Додатковий')
         ->assertDontSee('+38 050 348 23 10')
         ->assertDontSee('tel:+380503482310', false);
+
+    $html = $response->getContent();
+
+    // Each phone card must pair the correct number with the correct label.
+    expect($html)->toMatch('/\+38 066 677 35 47<\/span>\s*<span[^>]*>Євгенія — замовлення/');
+    expect($html)->toMatch('/\+38 050 475 68 47<\/span>\s*<span[^>]*>Олена — Рахунки відправлення/');
+    expect($html)->toContain('tel:+380666773547');
+    expect($html)->toContain('tel:+380504756847');
 });
 
 test('contact form triggers open and close states correctly', function () {
