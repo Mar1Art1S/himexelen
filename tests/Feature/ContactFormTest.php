@@ -15,6 +15,18 @@ test('public home page renders the contact form component', function () {
     $this->get(route('home'))->assertOk()->assertSeeLivewire('contact-form');
 });
 
+test('home page contacts section shows the current phone labels and numbers', function () {
+    $this->get(route('home'))
+        ->assertOk()
+        ->assertSee('Євгенія — замовлення')
+        ->assertSee('Олена — Рахунки відправлення')
+        ->assertSee('+38 066 677 35 47')
+        ->assertSee('tel:+380666773547', false)
+        ->assertDontSee('Додатковий')
+        ->assertDontSee('+38 050 348 23 10')
+        ->assertDontSee('tel:+380503482310', false);
+});
+
 test('contact form triggers open and close states correctly', function () {
     Livewire::test('contact-form')
         ->assertSet('showModal', false)

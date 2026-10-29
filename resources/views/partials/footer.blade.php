@@ -3,7 +3,7 @@
         <div class="grid gap-8 py-12 lg:grid-cols-4 lg:py-16">
             <div>
                 <div class="flex items-center gap-3">
-                    <img src="{{ asset('images/Logo.png') }}" alt="Логотип Хімекселен" class="h-10 w-auto object-contain">
+                    <img src="{{ asset('images/2Logo.png') }}" alt="Логотип Хімекселен" class="h-10 w-auto object-contain">
                     <span class="flex flex-col leading-tight">
                         <span class="text-lg font-bold">Хімекселен</span>
                         <span class="text-xs text-white/60">Вулики з ППУ</span>

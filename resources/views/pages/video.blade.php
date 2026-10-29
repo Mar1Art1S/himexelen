@@ -114,7 +114,7 @@
     <header class="sticky top-0 z-50 border-b border-[#e3d7b6] bg-[#fbf8ef]/90 backdrop-blur">
         <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
-                <img src="{{ asset('images/Logo.png') }}" alt="Логотип Хімекселен" class="h-10 w-auto object-contain">
+                <img src="{{ asset('images/2Logo.png') }}" alt="Логотип Хімекселен" class="h-10 w-auto object-contain">
                 <span class="flex flex-col leading-tight">
                     <span class="text-lg font-bold">Хімекселен</span>
                     <span class="text-xs text-[#766748]">Вулики з ППУ</span>
@@ -230,7 +230,7 @@
         <!-- Dynamic Tabs Navigation -->
         <div class="sticky top-16 z-40 border-b border-[#e3d7b6] bg-[#fbf8ef]/95 backdrop-blur">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <nav class="-mb-px flex space-x-8 overflow-x-auto scrolling-touch" aria-label="Tabs">
+                <nav class="-mb-px grid grid-cols-2 gap-x-6 md:flex md:space-x-8" aria-label="Tabs">
                     <button @click="activeTab = 'video'; history.replaceState(null, '', '?tab=video')"
                         :class="activeTab === 'video' ? 'border-[#b86f17] text-[#b86f17]' : 'border-transparent text-[#6d6045] hover:border-[#cdbb8c] hover:text-[#2f2718]'"
                         class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-semibold transition cursor-pointer">
@@ -241,16 +241,6 @@
                         class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-semibold transition cursor-pointer">
                         PDF Інструкції & Збірка
                     </button>
-
-
-
-
-
-
-
-
-
-
                     <button @click="activeTab = 'sizes'; history.replaceState(null, '', '?tab=sizes')"
                         :class="activeTab === 'sizes' ? 'border-[#b86f17] text-[#b86f17]' : 'border-transparent text-[#6d6045] hover:border-[#cdbb8c] hover:text-[#2f2718]'"
                         class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-semibold transition cursor-pointer">

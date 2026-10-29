@@ -20,6 +20,13 @@ test('video page shows separate "Відео огляди" and "ВІДЕО" tabs'
         ->assertSee("activeTab === 'videos'", false);
 });
 
+test('tabs navigation wraps into two rows on small screens instead of horizontal scrolling', function () {
+    $this->get(route('video'))
+        ->assertOk()
+        ->assertSee('grid grid-cols-2 gap-x-6 md:flex md:space-x-8', false)
+        ->assertDontSee('overflow-x-auto', false);
+});
+
 test('the ВІДЕО tab always shows the featured video as the first card', function () {
     $this->get(route('video'))
         ->assertOk()

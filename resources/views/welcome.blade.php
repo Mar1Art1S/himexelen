@@ -51,8 +51,8 @@
 
             $phones = [
                 ['number' => '+38 050 340 35 47', 'label' => 'Основний'],
-                ['number' => '+38 050 475 68 47', 'label' => 'Додатковий'],
-                ['number' => '+38 050 348 23 10', 'label' => 'Київ'],
+                ['number' => '+38 050 475 68 47', 'label' => 'Євгенія — замовлення'],
+                ['number' => '+38 066 677 35 47', 'label' => 'Олена — Рахунки відправлення'],
             ];
 
             $emails = [
@@ -63,7 +63,7 @@
         <header class="fixed inset-x-0 top-0 z-50 border-b border-[#e3d7b6] bg-[#fbf8ef]/90 backdrop-blur">
             <nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <a href="#hero" class="flex items-center gap-3">
-                    <img src="{{ asset('images/Logo.png') }}" alt="Логотип Хімекселен" class="h-10 w-auto object-contain">
+                    <img src="{{ asset('images/2Logo.png') }}" alt="Логотип Хімекселен" class="h-10 w-auto object-contain">
                     <span class="flex flex-col leading-tight">
                         <span class="text-lg font-bold">Хімекселен</span>
                         <span class="text-xs text-[#766748]">Вулики з ППУ</span>
