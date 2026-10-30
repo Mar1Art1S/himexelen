@@ -72,8 +72,9 @@
                         Оберіть розмір вулика
                     </h3>
                     
-                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                    <div class="grid grid-cols-1 gap-3 sm:grid-cols-4">
                         @foreach ([
+                            '6' => '6-рамковий',
                             '8' => '8-рамковий',
                             '10' => '10-рамковий',
                             '12' => '12-рамковий',

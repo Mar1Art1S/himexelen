@@ -50,7 +50,7 @@ class HiveCalculator extends Component
         $size = request()->query('size');
         $package = request()->query('package');
 
-        if ($size && in_array($size, ['8', '10', '12'])) {
+        if ($size && in_array($size, ['6', '8', '10', '12'])) {
             $this->frameSize = $size;
         }
 
@@ -71,7 +71,7 @@ class HiveCalculator extends Component
         $validPackageKeys = array_keys($this->packages());
 
         return [
-            'frameSize' => ['required', 'in:8,10,12'],
+            'frameSize' => ['required', 'in:6,8,10,12'],
             'packageKey' => ['required', 'in:'.implode(',', $validPackageKeys)],
             'quantity' => ['required', 'integer', 'min:1', 'max:999'],
         ];
@@ -718,7 +718,7 @@ class HiveCalculator extends Component
             $catSlug = $category->slug; // e.g. "8-frames", "10-frames", "12-frames"
             $frameSize = str_replace('-frames', '', $catSlug); // "8", "10", "12"
 
-            if (! in_array($frameSize, ['8', '10', '12'])) {
+            if (! in_array($frameSize, ['6', '8', '10', '12'])) {
                 continue;
             }
 
