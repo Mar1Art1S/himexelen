@@ -20,6 +20,8 @@ test('catalog page renders successfully', function () {
 test('catalog page uses the current price images', function () {
     $this->get(route('catalog'))
         ->assertSuccessful()
+        ->assertSee('/images/pricenew/6-ramok.jpg')
+        ->assertSee('Новинка')
         ->assertSee('/images/pricenew/bee-8new.png')
         ->assertSee('/images/pricenew/bee-10new.png')
         ->assertSee('/images/pricenew/bee-12new.png')
