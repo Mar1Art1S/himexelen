@@ -27,11 +27,13 @@ test('tabs navigation wraps into two rows on small screens instead of horizontal
         ->assertDontSee('overflow-x-auto', false);
 });
 
-test('the ВІДЕО tab always shows the featured video as the first card', function () {
+test('the ВІДЕО tab always shows the featured videos as the first cards', function () {
     $this->get(route('video'))
         ->assertOk()
         ->assertSee('youtube.com/watch?v=y00wo5oxcEc', false)
-        ->assertSee('Презентаційне відео');
+        ->assertSee('youtube.com/watch?v=bj_CBG3I9xM', false)
+        ->assertSee('Презентаційне відео')
+        ->assertSee('Наступний ролик');
 });
 
 test('the ВІДЕО tab is fed by its own video category type, separate from reviews', function () {
