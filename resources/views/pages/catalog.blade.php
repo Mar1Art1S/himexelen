@@ -3,7 +3,7 @@
 
 <head>
     @include('partials.head', ['title' => 'Каталог'])
-    <meta name="description" content="Каталог продукції ТМ Хімекселен: вулики з ППУ на 8, 10 та 12 рамок, а також повний асортимент оригінальних комплектуючих.">
+    <meta name="description" content="Каталог продукції ТМ Хімекселен: вулики з ППУ на 6, 8, 10 та 12 рамок, а також повний асортимент оригінальних комплектуючих.">
 </head>
 
 <body class="bg-[#fbf8ef] text-[#2f2718] antialiased" x-data="{ activeTab: (new URLSearchParams(window.location.search)).get('tab') || '12-frame' }">
@@ -146,7 +146,7 @@
                     <span class="text-sm font-semibold uppercase tracking-wider text-[#b86f17]">Каталог товарів ТМ Хімекселен</span>
                     <h1 class="mt-4 font-serif text-4xl font-bold leading-tight sm:text-5xl">Продукція та ціни</h1>
                     <p class="mt-6 text-lg leading-8 text-[#6d6045]">
-                        Широкий вибір екологічних вуликів з пінополіуретану на 8, 10 та 12 рамок, а також оригінальні комплектуючі деталі безпосередньо від виробника.
+                        Широкий вибір екологічних вуликів з пінополіуретану на 6, 8, 10 та 12 рамок, а також оригінальні комплектуючі деталі безпосередньо від виробника.
                     </p>
                 </div>
             </div>
