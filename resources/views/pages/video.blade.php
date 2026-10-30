@@ -66,7 +66,7 @@
     ]),
     ]);
 
-    // 4. Tab - ВІДЕО content (separate from "Відео огляди")
+    // 4. Tab - ВІДЕО content (managed in admin via the "ВІДЕО" section, type = 'videos')
     $videosTab = \App\Models\VideoCategory::where('type', 'videos')
     ->orderBy('sort_order')
     ->get()
@@ -76,18 +76,6 @@
     'image_url' => $v->image_path ? \Illuminate\Support\Facades\Storage::url($v->image_path) :
     "https://img.youtube.com/vi/{$v->youtube_id}/maxresdefault.jpg",
     ]));
-
-    // Featured videos always shown first in the "ВІДЕО" tab
-    $featuredVideos = collect([
-    ['title' => 'Презентаційне відео', 'id' => 'y00wo5oxcEc'],
-    ['title' => 'Наступний ролик', 'id' => 'bj_CBG3I9xM'],
-    ])->map(fn($v) => [
-    'title' => $v['title'],
-    'id' => $v['id'],
-    'image_url' => "https://img.youtube.com/vi/{$v['id']}/maxresdefault.jpg",
-    ]);
-
-    $videosTab = $featuredVideos->merge($videosTab);
 
     // 3. Tab - Sizes content
     $frames = \App\Models\Size::where('type', 'frame')

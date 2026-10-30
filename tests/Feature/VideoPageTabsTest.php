@@ -27,7 +27,7 @@ test('tabs navigation wraps into two rows on small screens instead of horizontal
         ->assertDontSee('overflow-x-auto', false);
 });
 
-test('the ВІДЕО tab always shows the featured videos as the first cards', function () {
+test('the ВІДЕО tab renders videos from the database (type = videos)', function () {
     $this->get(route('video'))
         ->assertOk()
         ->assertSee('youtube.com/watch?v=y00wo5oxcEc', false)

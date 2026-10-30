@@ -51,7 +51,7 @@ class VideoForm
     /**
      * Extracts the 11-character YouTube video ID from a URL or returns the ID if already valid.
      */
-    protected static function extractYoutubeId(?string $state): ?string
+    public static function extractYoutubeId(?string $state): ?string
     {
         if (blank($state)) {
             return null;

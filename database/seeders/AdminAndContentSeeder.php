@@ -48,6 +48,27 @@ class AdminAndContentSeeder extends Seeder
             ]
         );
 
+        $videoSectionCategory = VideoCategory::updateOrCreate(
+            ['slug' => 'video'],
+            [
+                'name' => 'ВІДЕО',
+                'type' => 'videos',
+                'sort_order' => 5,
+            ]
+        );
+
+        $videoSectionVideos = [
+            ['title' => 'Презентаційне відео', 'id' => 'y00wo5oxcEc'],
+            ['title' => 'Наступний ролик', 'id' => 'bj_CBG3I9xM'],
+        ];
+
+        foreach ($videoSectionVideos as $index => $v) {
+            Video::updateOrCreate(
+                ['youtube_id' => $v['id'], 'video_category_id' => $videoSectionCategory->id],
+                ['title' => $v['title'], 'sort_order' => ($index + 1) * 10]
+            );
+        }
+
         $generalVideos = [
             ['title' => 'Огляд вуликів з ППУ', 'id' => 'PN5ktKn3dTM'],
             ['title' => 'Вулик на 8 рамок', 'id' => 'EcEZlWO9kZU'],
