@@ -39,8 +39,7 @@ class SizeForm
                     ->label('Зображення')
                     ->disk('public')
                     ->directory('sizes')
-                    ->image()
-                    ->required(),
+                    ->image(),
 
                 TextInput::make('sort_order')
                     ->label('Порядок сортування')
