@@ -159,7 +159,7 @@
                 <!-- Фото цін 6 рамок — Новинка -->
                 <div class="mb-12 flex justify-center">
                     <div class="relative max-w-full md:max-w-4xl">
-                        <span class="absolute -top-3 -right-3 z-10 inline-flex items-center rounded-full bg-red-600 px-4 py-1.5 text-sm font-bold text-white shadow-lg">Новинка</span>
+                        <span class="absolute -top-3 -right-3 z-10 inline-flex items-center rounded-full bg-white px-4 py-1.5 text-sm font-bold text-red-600 shadow-lg border border-red-200">Новинка</span>
                         <img src="{{ asset('images/pricenew/6-ramok.jpg') }}" alt="Таблиця цін на вулики 6-рамкові" class="w-full h-auto rounded-3xl border border-[#e2d4ad] shadow-lg bg-white p-2">
                     </div>
                 </div>
