@@ -51,8 +51,7 @@
                 <h3 class="text-sm font-semibold uppercase tracking-wider">Графік роботи</h3>
                 <div class="mt-4 grid gap-2 text-sm text-white/70">
                     <p>Пн - Пт: 9:00 - 18:00</p>
-                    <p>Сб: 9:00 - 14:00</p>
-                    <p>Нд: Вихідний</p>
+                    <p>Сб - Нд: Вихідний</p>
                 </div>
             </div>
         </div>
