@@ -26,3 +26,18 @@ test('admin can delete a video material from the list page', function () {
 
     expect(Video::find($video->id))->toBeNull();
 });
+
+test('admin can bulk delete video materials from the list page', function () {
+    $admin = User::where('email', 'admin@himexelen.test')->first();
+    $this->actingAs($admin);
+
+    $videos = Video::take(3)->get();
+    expect($videos)->toHaveCount(3);
+
+    Livewire::test(ListVideos::class)
+        ->callTableBulkAction('delete', $videos);
+
+    foreach ($videos as $video) {
+        expect(Video::find($video->id))->toBeNull();
+    }
+});

@@ -30,8 +30,8 @@ test('instruction page redirects to tabbed video materials page and displays see
     $response->assertSee('Інструкція для 8-рамкового вулика');
     $response->assertSee('Інструкція для 10-рамкового вулика');
     $response->assertSee('Інструкція для 12-рамкового вулика');
-    // Ensure assembly videos are displayed
-    $response->assertSee('вулика 8-рамочного');
+    // Ensure assembly videos section is removed
+    $response->assertDontSee('Збірка елементів вулика');
 });
 
 test('sizes page redirects to tabbed video materials page and displays seeded content', function () {
